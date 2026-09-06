@@ -1,26 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Studio | Digital Menu Generator - MatrixQR</title>
+    <title>Canvas Menu Studio - Custom Visual Editor | MatrixQR</title>
     
+    <!-- 谷歌字体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- 静态样式与 Lucide 图标 -->
     <link rel="stylesheet" href="/dist/output.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <!-- Fabric.js 强大画布引擎 & 二维码生成库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
         :root {
-            --bg-warm: #FDFBF7;
+            --bg-warm: #F4F0EA;
             --text-main: #2C2A29;
-            --text-muted: #8C8275;
-            --accent-clay: #D97757;
-            --accent-green: #3A4D39;
+            --accent-blue: #1C3144;
         }
 
         body {
@@ -29,194 +31,291 @@
             color: var(--text-main);
         }
 
-        .font-serif-warm {
-            font-family: 'Lora', serif;
-        }
-
-        
-        .glow-card {
-            position: relative;
-            transform-style: preserve-3d;
-            transition: all 0.3s ease;
-        }
-        .glow-card::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 1.25rem;
-            background: linear-gradient(135deg, rgba(217,119,87,0.3), rgba(58,77,57,0.2));
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .glow-card:hover::before {
-            opacity: 1;
+        /* 自定义滚动条与画板外框样式 */
+        .canvas-container {
+            margin: 0 auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 12px;
+            overflow: hidden;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased">
 
-    
-    <header class="py-5 px-6 border-b border-[#2C2A29]/5">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <a href="/" class="flex items-center gap-2 group">
-                <span class="w-3.5 h-3.5 rounded-full bg-[#D97757]"></span>
-                <span class="font-serif-warm font-bold text-xl tracking-tight text-[#2C2A29]">Menu Studio</span>
+    <!-- 顶部导航与导出工具栏 -->
+    <header class="py-4 px-6 border-b border-[#2C2A29]/10 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/" class="flex items-center gap-2">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#1C3144]"></span>
+                <span class="font-serif-warm font-bold text-xl tracking-tight text-[#2C2A29]">Visual Menu Canvas</span>
             </a>
 
-            <nav class="flex items-center gap-6 text-sm font-medium">
-                <a href="https://www.matrixqr.cc/" class="text-[#8C8275] hover:text-[#2C2A29] transition-colors flex items-center gap-1">
-                    Main Studio <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                </a>
-                <a href="https://blog.matrixqr.cc/" class="text-[#8C8275] hover:text-[#2C2A29] transition-colors">Blog</a>
-                <a href="/editor.html" class="px-4 py-2 rounded-full bg-[#3A4D39] hover:bg-[#2C2A29] text-white transition-all text-xs font-semibold shadow-sm hover:shadow">
-                    Create Menu
-                </a>
-            </nav>
+            <div class="flex items-center gap-3">
+                <button id="btn-export-png" onclick="exportPNG()" class="px-4 py-2 rounded-lg bg-[#2C2A29]/5 hover:bg-[#2C2A29]/10 text-[#2C2A29] text-xs font-semibold flex items-center gap-1.5 transition-all">
+                    <i data-lucide="download" class="w-4 h-4"></i> 导出高清图片 (PNG)
+                </button>
+                <button id="btn-generate-qr" onclick="addQRCodeToCanvas()" class="px-4 py-2 rounded-lg bg-[#1C3144] hover:bg-[#11202e] text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm">
+                    <i data-lucide="qr-code" class="w-4 h-4"></i> 放置二维码到画布
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-6 py-12 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <!-- 工作区 -->
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        
-        <div class="lg:col-span-6 space-y-6 text-left">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D97757]/10 text-[#D97757] text-xs font-semibold">
-                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Live Interactive Templates
-            </div>
-            <h1 class="text-4xl lg:text-5xl font-serif-warm font-bold leading-tight text-[#2C2A29]">
-                Craft Elegant Menus for Your Restaurant
-            </h1>
-            <p class="text-[#8C8275] text-base leading-relaxed max-w-lg">
-                Select a ready-to-use template, customize your menu items, and generate instantly downloadable digital or printable menus.
-            </p>
+        <!-- 左侧编辑工具箱 (Toolbox) -->
+        <div class="lg:col-span-5 space-y-6 bg-white p-6 rounded-2xl shadow-sm border border-[#2C2A29]/10">
             
-            <div class="pt-2 flex items-center gap-4">
-                <a id="cta-link" href="/editor.html?template=modern-bistro" class="px-6 py-3.5 bg-[#D97757] hover:bg-[#b85e41] text-white font-semibold rounded-xl transition-all shadow-md flex items-center gap-2 group">
-                    <span>Use This Template</span> 
-                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                </a>
+            <!-- 1. 背景控制 -->
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">1. 画布与背景设置</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="p-3 border-2 border-dashed border-[#2C2A29]/20 rounded-xl text-center cursor-pointer hover:border-[#1C3144] transition-all flex flex-col items-center justify-center gap-1 bg-gray-50/50">
+                        <i data-lucide="image" class="w-5 h-5 text-[#1C3144]"></i>
+                        <span class="text-xs font-semibold">上传自定义背景图</span>
+                        <input type="file" id="bg-upload" accept="image/*" class="hidden" onchange="uploadBackground(event)">
+                    </label>
+                    <button onclick="setCanvasBg('#F4F0EA')" class="p-3 border rounded-xl text-xs font-medium bg-[#F4F0EA] hover:opacity-90 flex items-center justify-center gap-2">
+                        🎨 复古米黄背景
+                    </button>
+                </div>
             </div>
+
+            <hr class="border-[#2C2A29]/10">
+
+            <!-- 2. 图形与圆框放置器 -->
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">2. 插入自定义元素</h3>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="addCircle()" class="p-3 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
+                        <i data-lucide="circle" class="w-4 h-4 text-[#D97757]"></i> 放置圆框
+                    </button>
+                    <button onclick="addRect()" class="p-3 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
+                        <i data-lucide="square" class="w-4 h-4 text-[#1C3144]"></i> 放置方框
+                    </button>
+                    <button onclick="addText()" class="p-3 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
+                        <i data-lucide="type" class="w-4 h-4 text-[#2C2A29]"></i> 添加文本
+                    </button>
+                </div>
+            </div>
+
+            <hr class="border-[#2C2A29]/10">
+
+            <!-- 3. 图层操作面板 -->
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">3. 图层管理</h3>
+                <div class="flex gap-2">
+                    <button onclick="deleteActiveObject()" class="px-3 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-semibold flex items-center gap-1">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i> 删除选中项
+                    </button>
+                    <button onclick="clearCanvas()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-[#2C2A29] rounded-lg text-xs font-semibold flex items-center gap-1">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> 清空画布
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-amber-800 text-xs leading-relaxed">
+                💡 <strong>提示：</strong>在右侧画布中点击任意图形或文字，支持鼠标直接<strong>自由拖拽、旋转角度、拉伸缩放大小</strong>。
+            </div>
+
         </div>
 
-        
-        <div id="samples" class="lg:col-span-6 flex flex-col items-center justify-center w-full">
-            
-            <div id="carousel-card" 
-                 data-tilt 
-                 data-tilt-max="10" 
-                 data-tilt-speed="400" 
-                 data-tilt-glare 
-                 data-tilt-max-glare="0.2"
-                 class="glow-card w-full max-w-md bg-white p-6 rounded-2xl shadow-xl border border-[#2C2A29]/5 space-y-5 text-center cursor-pointer">
-                
-                
-                <div class="relative w-full h-80 rounded-lg overflow-hidden bg-[#FDFBF7] flex items-center justify-center border border-[#2C2A29]/5">
-                    <img id="carousel-img" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" alt="Menu Sample" class="w-full h-full object-cover transition-opacity duration-500 opacity-100">
-                </div>
-
-                
-                <div class="flex items-center justify-between px-2" style="transform: translateZ(20px);">
-                    <button id="prev-btn" class="p-2 rounded-full hover:bg-[#FDFBF7] text-[#8C8275] hover:text-[#2C2A29]">
-                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                    </button>
-                    <span id="sample-title" class="font-serif-warm text-sm font-semibold text-[#2C2A29]">
-                        Sample 1: Modern Bistro
-                    </span>
-                    <button id="next-btn" class="p-2 rounded-full hover:bg-[#FDFBF7] text-[#8C8275] hover:text-[#2C2A29]">
-                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                    </button>
-                </div>
-            </div>
+        <!-- 右侧可视化 Fabric.js 画布区域 -->
+        <div class="lg:col-span-7 flex justify-center sticky top-20">
+            <canvas id="menu-canvas" width="550" height="750"></canvas>
         </div>
 
     </main>
 
-    <footer class="py-6 text-center text-xs text-[#8C8275] border-t border-[#2C2A29]/5 mt-10">
-        <p>© 2026 Menu Studio by <a href="https://www.matrixqr.cc/" class="underline hover:text-[#2C2A29]">MatrixQR</a>. All rights reserved.</p>
-    </footer>
+    <!-- 隐藏的二维码生成临时容器 -->
+    <div id="hidden-qr" class="hidden"></div>
 
-    
+    <!-- 交互逻辑控制代码 -->
     <script>
-        const samples = [
-            { id: "modern-bistro", title: "Sample 1: Modern Bistro", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" },
-            { id: "minimal-cafe", title: "Sample 2: Elegant Cafe", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600" },
-            { id: "japanese-dining", title: "Sample 3: Japanese Dining", img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600" }
-        ];
-        let currentIndex = 0;
-        let timer = null;
+        // 1. 初始化 Fabric 画布
+        const canvas = new fabric.Canvas('menu-canvas', {
+            backgroundColor: '#FDFBF7',
+            preserveObjectStacking: true // 选中对象时不强制提到最顶层
+        });
 
-        const imgEl = document.getElementById('carousel-img');
-        const titleEl = document.getElementById('sample-title');
-        const ctaEl = document.getElementById('cta-link');
-        const cardEl = document.getElementById('carousel-card');
-
-        function updateCarousel(index) {
-            imgEl.classList.remove('opacity-100');
-            imgEl.classList.add('opacity-0');
-            
-            setTimeout(() => {
-                const current = samples[index];
-                imgEl.src = current.img;
-                titleEl.textContent = current.title;
-                
-                ctaEl.href = `/editor.html?template=${current.id}`;
-                
-                imgEl.classList.remove('opacity-0');
-                imgEl.classList.add('opacity-100');
-            }, 200);
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % samples.length;
-            updateCarousel(currentIndex);
-        }
-
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + samples.length) % samples.length;
-            updateCarousel(currentIndex);
-        }
-
-        function startAutoPlay() {
-            if (!timer) timer = setInterval(nextSlide, 3500);
-        }
-
-        function stopAutoPlay() {
-            if (timer) {
-                clearInterval(timer);
-                timer = null;
-            }
-        }
-
-        document.getElementById('prev-btn').onclick = (e) => {
-            e.stopPropagation();
-            stopAutoPlay();
-            prevSlide();
-            startAutoPlay();
-        };
-
-        document.getElementById('next-btn').onclick = (e) => {
-            e.stopPropagation();
-            stopAutoPlay();
-            nextSlide();
-            startAutoPlay();
-        };
-
-        
-        cardEl.onclick = () => {
-            window.location.href = ctaEl.href;
-        };
-
-        cardEl.addEventListener('mouseenter', stopAutoPlay);
-        cardEl.addEventListener('mouseleave', startAutoPlay);
-
+        // 2. 页面加载初始化默认内容
         window.onload = function() {
             if (typeof lucide !== 'undefined') lucide.createIcons();
-            startAutoPlay();
+            initDefaultTemplate();
+        };
+
+        // 绘制默认示例模板
+        function initDefaultTemplate() {
+            // 添加标题文本
+            const title = new fabric.IText('THE MERCHANT', {
+                left: 140,
+                top: 40,
+                fontFamily: 'Playfair Display',
+                fontSize: 32,
+                fontWeight: 'bold',
+                fill: '#1C3144'
+            });
+
+            const subtitle = new fabric.IText('BAKERY & ROASTERY', {
+                left: 180,
+                top: 85,
+                fontFamily: 'Lora',
+                fontSize: 14,
+                fontStyle: 'italic',
+                fill: '#8C8275'
+            });
+
+            // 添加示例圆框 (例如放置特色图标/优惠印章)
+            const circle = new fabric.Circle({
+                radius: 45,
+                fill: 'rgba(217, 119, 87, 0.1)',
+                stroke: '#D97757',
+                strokeWidth: 2,
+                strokeDashArray: [4, 4], // 虚线边框
+                left: 380,
+                top: 30
+            });
+
+            const circleText = new fabric.IText('FRESH\nDAILY', {
+                left: 402,
+                top: 55,
+                fontFamily: 'Courier Prime',
+                fontSize: 12,
+                textAlign: 'center',
+                fill: '#D97757'
+            });
+
+            canvas.add(title, subtitle, circle, circleText);
+            canvas.renderAll();
+        }
+
+        // 3. 添加圆框
+        function addCircle() {
+            const circle = new fabric.Circle({
+                radius: 50,
+                fill: 'rgba(28, 49, 68, 0.05)',
+                stroke: '#1C3144',
+                strokeWidth: 2,
+                left: 200,
+                top: 300,
+                cornerColor: '#1C3144',
+                cornerSize: 8
+            });
+            canvas.add(circle);
+            canvas.setActiveObject(circle);
+        }
+
+        // 4. 添加矩形框
+        function addRect() {
+            const rect = new fabric.Rect({
+                width: 140,
+                height: 90,
+                fill: 'transparent',
+                stroke: '#2C2A29',
+                strokeWidth: 2,
+                left: 180,
+                top: 250,
+                cornerColor: '#1C3144',
+                cornerSize: 8
+            });
+            canvas.add(rect);
+            canvas.setActiveObject(rect);
+        }
+
+        // 5. 添加文字
+        function addText() {
+            const text = new fabric.IText('双击修改文本', {
+                left: 200,
+                top: 200,
+                fontSize: 18,
+                fontFamily: 'Courier Prime',
+                fill: '#2C2A29'
+            });
+            canvas.add(text);
+            canvas.setActiveObject(text);
+        }
+
+        // 6. 上传背景图
+        function uploadBackground(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(f) {
+                fabric.Image.fromURL(f.target.result, function(img) {
+                    // 缩放并居中设为画布背景
+                    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                        scaleX: canvas.width / img.width,
+                        scaleY: canvas.height / img.height
+                    });
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 7. 设置纯色背景
+        function setCanvasBg(color) {
+            canvas.setBackgroundImage(null, canvas.renderAll.bind(canvas));
+            canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas));
+        }
+
+        // 8. 生成并直接在画布上放置二维码对象
+        function addQRCodeToCanvas() {
+            const hiddenContainer = document.getElementById('hidden-qr');
+            hiddenContainer.innerHTML = '';
             
-            if (typeof VanillaTilt !== 'undefined') {
-                VanillaTilt.init(document.querySelectorAll("[data-tilt]"));
+            // 动态生成二维码
+            new QRCode(hiddenContainer, {
+                text: window.location.href,
+                width: 120,
+                height: 120
+            });
+
+            setTimeout(() => {
+                const qrImg = hiddenContainer.querySelector('img');
+                if (qrImg) {
+                    fabric.Image.fromURL(qrImg.src, function(img) {
+                        img.set({
+                            left: 215,
+                            top: 550,
+                            scaleX: 0.8,
+                            scaleY: 0.8,
+                            cornerColor: '#1C3144'
+                        });
+                        canvas.add(img);
+                        canvas.setActiveObject(img);
+                    });
+                }
+            }, 100);
+        }
+
+        // 9. 删除选中图层
+        function deleteActiveObject() {
+            const activeObj = canvas.getActiveObject();
+            if (activeObj) {
+                canvas.remove(activeObj);
             }
+        }
+
+        // 10. 清空画布
+        function clearCanvas() {
+            canvas.clear();
+            setCanvasBg('#FDFBF7');
+        }
+
+        // 11. 导出高清晰度 PNG 图片（适合打印/分享）
+        function exportPNG() {
+            const dataURL = canvas.toDataURL({
+                format: 'png',
+                quality: 1.0,
+                multiplier: 2 // 放大 2 倍导出，确保清晰度
+            });
+            
+            const link = document.createElement('a');
+            link.download = 'custom-menu.png';
+            link.href = dataURL;
+            link.click();
         }
     </script>
 </body>
