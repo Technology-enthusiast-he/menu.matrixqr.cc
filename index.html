@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas Menu Studio - Custom Visual Editor | MatrixQR</title>
+    <title>Menu Press Studio - Custom Template & Canvas Editor | MatrixQR</title>
     
-    <!-- 谷歌字体 -->
+    <!-- 谷歌复古字体库 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/dist/output.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Fabric.js 强大画布引擎 & 二维码生成库 -->
+    <!-- Fabric.js 画布引擎 & 二维码生成库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -31,12 +31,13 @@
             color: var(--text-main);
         }
 
-        /* 自定义滚动条与画板外框样式 */
+        /* 保证 Canvas 容器带有明显的立体阴影 */
         .canvas-container {
-            margin: 0 auto;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-radius: 12px;
+            margin: 0 auto !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
             overflow: hidden;
+            border: 1px solid rgba(44, 42, 41, 0.15);
         }
     </style>
 </head>
@@ -47,7 +48,7 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="/" class="flex items-center gap-2">
                 <span class="w-3.5 h-3.5 rounded-full bg-[#1C3144]"></span>
-                <span class="font-serif-warm font-bold text-xl tracking-tight text-[#2C2A29]">Visual Menu Canvas</span>
+                <span class="font-bold text-xl tracking-tight text-[#2C2A29]">Menu Studio Pro</span>
             </a>
 
             <div class="flex items-center gap-3">
@@ -55,7 +56,7 @@
                     <i data-lucide="download" class="w-4 h-4"></i> 导出高清图片 (PNG)
                 </button>
                 <button id="btn-generate-qr" onclick="addQRCodeToCanvas()" class="px-4 py-2 rounded-lg bg-[#1C3144] hover:bg-[#11202e] text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm">
-                    <i data-lucide="qr-code" class="w-4 h-4"></i> 放置二维码到画布
+                    <i data-lucide="qr-code" class="w-4 h-4"></i> 生成二维码到菜单
                 </button>
             </div>
         </div>
@@ -64,254 +65,338 @@
     <!-- 工作区 -->
     <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <!-- 左侧编辑工具箱 (Toolbox) -->
-        <div class="lg:col-span-5 space-y-6 bg-white p-6 rounded-2xl shadow-sm border border-[#2C2A29]/10">
+        <!-- 左侧编辑控制面板 -->
+        <div class="lg:col-span-5 space-y-6 bg-white p-6 rounded-2xl shadow-sm border border-[#2C2A29]/10 max-h-[85vh] overflow-y-auto">
             
-            <!-- 1. 背景控制 -->
+            <!-- 1. 选择预设排版模板 / 背景上传 -->
             <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">1. 画布与背景设置</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <label class="p-3 border-2 border-dashed border-[#2C2A29]/20 rounded-xl text-center cursor-pointer hover:border-[#1C3144] transition-all flex flex-col items-center justify-center gap-1 bg-gray-50/50">
-                        <i data-lucide="image" class="w-5 h-5 text-[#1C3144]"></i>
-                        <span class="text-xs font-semibold">上传自定义背景图</span>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">1. 模板与底图选择</h3>
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <button onclick="loadPresetTemplate('vintage')" class="p-2.5 border rounded-xl text-left hover:border-[#1C3144] text-xs font-bold flex items-center gap-2 bg-gray-50">
+                        🗞️ 美式复古报刊
+                    </button>
+                    <button onclick="loadPresetTemplate('warm')" class="p-2.5 border rounded-xl text-left hover:border-[#1C3144] text-xs font-bold flex items-center gap-2 bg-gray-50">
+                        🥐 暖阳烘焙店
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="p-2.5 border-2 border-dashed border-[#2C2A29]/20 rounded-xl text-center cursor-pointer hover:border-[#1C3144] transition-all flex items-center justify-center gap-1.5 bg-gray-50/50 text-xs font-semibold">
+                        <i data-lucide="image" class="w-4 h-4 text-[#1C3144]"></i>
+                        <span>上传背景底图</span>
                         <input type="file" id="bg-upload" accept="image/*" class="hidden" onchange="uploadBackground(event)">
                     </label>
-                    <button onclick="setCanvasBg('#F4F0EA')" class="p-3 border rounded-xl text-xs font-medium bg-[#F4F0EA] hover:opacity-90 flex items-center justify-center gap-2">
-                        🎨 复古米黄背景
-                    </button>
+                    <label class="p-2.5 border-2 border-dashed border-[#2C2A29]/20 rounded-xl text-center cursor-pointer hover:border-[#1C3144] transition-all flex items-center justify-center gap-1.5 bg-gray-50/50 text-xs font-semibold">
+                        <i data-lucide="plus-circle" class="w-4 h-4 text-[#D97757]"></i>
+                        <span>插入菜品/图片</span>
+                        <input type="file" id="img-overlay-upload" accept="image/*" class="hidden" onchange="uploadOverlayImage(event)">
+                    </label>
                 </div>
             </div>
 
             <hr class="border-[#2C2A29]/10">
 
-            <!-- 2. 图形与圆框放置器 -->
+            <!-- 2. 快捷插入装饰元素 -->
             <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">2. 插入自定义元素</h3>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">2. 插入符号与装饰框</h3>
                 <div class="grid grid-cols-3 gap-2">
-                    <button onclick="addCircle()" class="p-3 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
-                        <i data-lucide="circle" class="w-4 h-4 text-[#D97757]"></i> 放置圆框
+                    <button onclick="addCircleStamp()" class="p-2.5 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
+                        <i data-lucide="circle-dot" class="w-4 h-4 text-[#D97757]"></i> 放置圆框/公章
                     </button>
-                    <button onclick="addRect()" class="p-3 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
-                        <i data-lucide="square" class="w-4 h-4 text-[#1C3144]"></i> 放置方框
+                    <button onclick="addDividerLine()" class="p-2.5 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
+                        <i data-lucide="minus" class="w-4 h-4 text-[#1C3144]"></i> 复古分割线
                     </button>
-                    <button onclick="addText()" class="p-3 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
-                        <i data-lucide="type" class="w-4 h-4 text-[#2C2A29]"></i> 添加文本
+                    <button onclick="addCustomText()" class="p-2.5 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
+                        <i data-lucide="type" class="w-4 h-4 text-[#2C2A29]"></i> 添加自由文本
                     </button>
                 </div>
             </div>
 
             <hr class="border-[#2C2A29]/10">
 
-            <!-- 3. 图层操作面板 -->
+            <!-- 3. 快速录入带点阵对齐（Dot Leader）的菜品 -->
             <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">3. 图层管理</h3>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">3. 添加菜单项目 (自动虚线对齐)</h3>
+                <div class="space-y-2">
+                    <input type="text" id="input-item-name" placeholder="菜名 (例如: CROISSANTS / HAM & CHEESE)" class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:border-[#1C3144]">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="input-item-price" placeholder="价格 (例如: $8.50 或 .00)" class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:border-[#1C3144]">
+                        <input type="text" id="input-item-desc" placeholder="配料描述 (可选)" class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:border-[#1C3144]">
+                    </div>
+                    <button onclick="addMenuItemToCanvas()" class="w-full py-2 bg-[#1C3144] hover:bg-[#11202e] text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1">
+                        <i data-lucide="plus" class="w-4 h-4"></i> 插入到画布
+                    </button>
+                </div>
+            </div>
+
+            <hr class="border-[#2C2A29]/10">
+
+            <!-- 4. 图层管理 -->
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">4. 图层控制</h3>
                 <div class="flex gap-2">
                     <button onclick="deleteActiveObject()" class="px-3 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-semibold flex items-center gap-1">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i> 删除选中项
+                        <i data-lucide="trash-2" class="w-4 h-4"></i> 删除选中对象
                     </button>
                     <button onclick="clearCanvas()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-[#2C2A29] rounded-lg text-xs font-semibold flex items-center gap-1">
-                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> 清空画布
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> 重置画布
                     </button>
                 </div>
-            </div>
-
-            <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-amber-800 text-xs leading-relaxed">
-                💡 <strong>提示：</strong>在右侧画布中点击任意图形或文字，支持鼠标直接<strong>自由拖拽、旋转角度、拉伸缩放大小</strong>。
             </div>
 
         </div>
 
-        <!-- 右侧可视化 Fabric.js 画布区域 -->
+        <!-- 右侧 Live 可视化编辑画布 -->
         <div class="lg:col-span-7 flex justify-center sticky top-20">
             <canvas id="menu-canvas" width="550" height="750"></canvas>
         </div>
 
     </main>
 
-    <!-- 隐藏的二维码生成临时容器 -->
     <div id="hidden-qr" class="hidden"></div>
 
-    <!-- 交互逻辑控制代码 -->
+    <!-- 核心逻辑脚本 -->
     <script>
-        // 1. 初始化 Fabric 画布
+        // 初始化 Fabric.js 画布
         const canvas = new fabric.Canvas('menu-canvas', {
             backgroundColor: '#FDFBF7',
-            preserveObjectStacking: true // 选中对象时不强制提到最顶层
+            preserveObjectStacking: true
         });
 
-        // 2. 页面加载初始化默认内容
         window.onload = function() {
             if (typeof lucide !== 'undefined') lucide.createIcons();
-            initDefaultTemplate();
+            loadPresetTemplate('vintage');
         };
 
-        // 绘制默认示例模板
-        function initDefaultTemplate() {
-            // 添加标题文本
-            const title = new fabric.IText('THE MERCHANT', {
-                left: 140,
-                top: 40,
-                fontFamily: 'Playfair Display',
-                fontSize: 32,
-                fontWeight: 'bold',
-                fill: '#1C3144'
-            });
+        // 1. 加载预设排版模板（美式复古 / 暖阳烘焙）
+        function loadPresetTemplate(type) {
+            canvas.clear();
+            canvas.setBackgroundColor('#FDFBF7', canvas.renderAll.bind(canvas));
 
-            const subtitle = new fabric.IText('BAKERY & ROASTERY', {
-                left: 180,
-                top: 85,
-                fontFamily: 'Lora',
-                fontSize: 14,
-                fontStyle: 'italic',
-                fill: '#8C8275'
-            });
+            if (type === 'vintage') {
+                // 外框线
+                const borderRect = new fabric.Rect({
+                    left: 15, top: 15, width: 520, height: 720,
+                    fill: 'transparent', stroke: '#1C3144', strokeWidth: 3, selectable: false
+                });
 
-            // 添加示例圆框 (例如放置特色图标/优惠印章)
-            const circle = new fabric.Circle({
-                radius: 45,
-                fill: 'rgba(217, 119, 87, 0.1)',
-                stroke: '#D97757',
-                strokeWidth: 2,
-                strokeDashArray: [4, 4], // 虚线边框
-                left: 380,
-                top: 30
-            });
+                // 店名 Header
+                const title = new fabric.IText('THE MERCHANT', {
+                    left: 135, top: 40, fontFamily: 'Playfair Display',
+                    fontSize: 34, fontWeight: 'bold', fill: '#1C3144'
+                });
 
-            const circleText = new fabric.IText('FRESH\nDAILY', {
-                left: 402,
-                top: 55,
-                fontFamily: 'Courier Prime',
-                fontSize: 12,
-                textAlign: 'center',
-                fill: '#D97757'
-            });
+                const tagline = new fabric.IText('BAKERY & ROASTERY "BY THE SEA"', {
+                    left: 155, top: 85, fontFamily: 'Lora',
+                    fontSize: 12, fontStyle: 'italic', fill: '#1C3144'
+                });
 
-            canvas.add(title, subtitle, circle, circleText);
+                // 分割双线条
+                const line1 = new fabric.Line([25, 110, 525, 110], { stroke: '#1C3144', strokeWidth: 2, selectable: false });
+                const line2 = new fabric.Line([25, 114, 525, 114], { stroke: '#1C3144', strokeWidth: 1, selectable: false });
+
+                canvas.add(borderRect, title, tagline, line1, line2);
+
+                // 预设放置几个示例带虚线菜品
+                renderMenuItem('HAM & CHEESE', '.00', 'Smoked ham, melted cheddar', 140);
+                renderMenuItem('TURKEY + HAVARTI', '.00', 'Oven roasted turkey slice', 190);
+                renderMenuItem('CINNAMON TWIST', '.00', 'Cinnamon sugar glaze', 240);
+
+                // 右侧添加一个复古印章圆框
+                addCircleStamp(380, 40);
+
+            } else if (type === 'warm') {
+                const title = new fabric.IText('MSC° BAKERY', {
+                    left: 170, top: 50, fontFamily: 'Lora',
+                    fontSize: 32, fontWeight: 'bold', fill: '#2C2A29'
+                });
+
+                const line = new fabric.Line([50, 95, 500, 95], { stroke: '#2C2A29', strokeWidth: 1.5, selectable: false });
+                canvas.add(title, line);
+
+                renderMenuItem('BREAKFAST CEREAL', '7.00', 'steel cut oats, quinoa, blueberries', 130);
+                renderMenuItem('EGGS BENEDICT', '9.50', 'lightly toasted sourdough, poached eggs', 180);
+                renderMenuItem('SOURDOUGH FRENCH TOAST', '8.25', 'whipped cream, apple compote', 230);
+            }
+
             canvas.renderAll();
         }
 
-        // 3. 添加圆框
-        function addCircle() {
+        // 2. 自动点阵虚线对齐（Dot Leader）核心渲染算法
+        function renderMenuItem(name, price, desc, topY) {
+            const fontStyle = { fontFamily: 'Courier Prime', fontSize: 13, fontWeight: 'bold', fill: '#1C3144' };
+            
+            // 菜名
+            const nameText = new fabric.Text(name.toUpperCase(), { left: 40, top: topY, ...fontStyle });
+            
+            // 价格
+            const priceText = new fabric.Text(price, { top: topY, ...fontStyle });
+            priceText.set('left', 510 - priceText.width); // 右对齐
+
+            // 计算中间虚线长度
+            const startX = 45 + nameText.width;
+            const endX = priceText.left - 10;
+            let dotsStr = '';
+            if (endX > startX) {
+                const count = Math.floor((endX - startX) / 8);
+                dotsStr = '. '.repeat(count);
+            }
+
+            const dotsText = new fabric.Text(dotsStr, {
+                left: startX, top: topY,
+                fontFamily: 'Courier Prime', fontSize: 13, fill: '#1C3144', opacity: 0.5
+            });
+
+            // 描述
+            const groupArr = [nameText, dotsText, priceText];
+            if (desc) {
+                const descText = new fabric.Text(desc, {
+                    left: 40, top: topY + 18,
+                    fontFamily: 'Lora', fontSize: 10, fontStyle: 'italic', fill: '#8C8275'
+                });
+                groupArr.push(descText);
+            }
+
+            // 打包成一个可随手拖拽的组合（Group）
+            const itemGroup = new fabric.Group(groupArr, { left: 40, top: topY });
+            canvas.add(itemGroup);
+            canvas.renderAll();
+        }
+
+        function addMenuItemToCanvas() {
+            const name = document.getElementById('input-item-name').value;
+            const price = document.getElementById('input-item-price').value;
+            const desc = document.getElementById('input-item-desc').value;
+
+            if (!name) return alert('请输入菜名！');
+            renderMenuItem(name, price || '.00', desc, 300);
+
+            // 清空输入框
+            document.getElementById('input-item-name').value = '';
+            document.getElementById('input-item-price').value = '';
+            document.getElementById('input-item-desc').value = '';
+        }
+
+        // 3. 放置复古圆框/公章
+        function addCircleStamp(x = 200, y = 300) {
             const circle = new fabric.Circle({
-                radius: 50,
-                fill: 'rgba(28, 49, 68, 0.05)',
-                stroke: '#1C3144',
-                strokeWidth: 2,
-                left: 200,
-                top: 300,
-                cornerColor: '#1C3144',
-                cornerSize: 8
+                radius: 40, fill: 'rgba(217, 119, 87, 0.08)',
+                stroke: '#D97757', strokeWidth: 2, strokeDashArray: [4, 3],
+                originX: 'center', originY: 'center'
             });
-            canvas.add(circle);
-            canvas.setActiveObject(circle);
+
+            const text = new fabric.Text('FRESH\nDAILY', {
+                fontFamily: 'Courier Prime', fontSize: 11,
+                fontWeight: 'bold', fill: '#D97757', textAlign: 'center',
+                originX: 'center', originY: 'center'
+            });
+
+            const stampGroup = new fabric.Group([circle, text], { left: x, top: y });
+            canvas.add(stampGroup);
+            canvas.setActiveObject(stampGroup);
+            canvas.renderAll();
         }
 
-        // 4. 添加矩形框
-        function addRect() {
-            const rect = new fabric.Rect({
-                width: 140,
-                height: 90,
-                fill: 'transparent',
-                stroke: '#2C2A29',
-                strokeWidth: 2,
-                left: 180,
-                top: 250,
-                cornerColor: '#1C3144',
-                cornerSize: 8
+        // 4. 放置分割线
+        function addDividerLine() {
+            const line = new fabric.Line([0, 0, 450, 0], {
+                stroke: '#1C3144', strokeWidth: 1.5,
+                left: 50, top: 350, cornerColor: '#1C3144'
             });
-            canvas.add(rect);
-            canvas.setActiveObject(rect);
+            canvas.add(line);
+            canvas.setActiveObject(line);
         }
 
-        // 5. 添加文字
-        function addText() {
-            const text = new fabric.IText('双击修改文本', {
-                left: 200,
-                top: 200,
-                fontSize: 18,
-                fontFamily: 'Courier Prime',
-                fill: '#2C2A29'
+        // 5. 放置自由文本
+        function addCustomText() {
+            const text = new fabric.IText('点击修改文本', {
+                left: 200, top: 200, fontSize: 16,
+                fontFamily: 'Courier Prime', fill: '#2C2A29'
             });
             canvas.add(text);
             canvas.setActiveObject(text);
         }
 
-        // 6. 上传背景图
+        // 6. 本地图片背景上传
         function uploadBackground(e) {
             const file = e.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(f) {
-                fabric.Image.fromURL(f.target.result, function(img) {
-                    // 缩放并居中设为画布背景
-                    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-                        scaleX: canvas.width / img.width,
-                        scaleY: canvas.height / img.height
+            reader.onload = function(event) {
+                const imgObj = new Image();
+                imgObj.src = event.target.result;
+                imgObj.onload = function() {
+                    const image = new fabric.Image(imgObj);
+                    image.set({
+                        scaleX: canvas.width / image.width,
+                        scaleY: canvas.height / image.height
                     });
-                });
+                    canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
+                }
             };
             reader.readAsDataURL(file);
         }
 
-        // 7. 设置纯色背景
-        function setCanvasBg(color) {
-            canvas.setBackgroundImage(null, canvas.renderAll.bind(canvas));
-            canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas));
+        // 7. 本地插入贴图/菜品图
+        function uploadOverlayImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imgObj = new Image();
+                imgObj.src = event.target.result;
+                imgObj.onload = function() {
+                    const image = new fabric.Image(imgObj);
+                    if (image.width > 180) image.scaleToWidth(180);
+                    image.set({ left: 180, top: 250, cornerColor: '#1C3144', cornerSize: 8 });
+                    canvas.add(image);
+                    canvas.setActiveObject(image);
+                    canvas.renderAll();
+                }
+            };
+            reader.readAsDataURL(file);
         }
 
-        // 8. 生成并直接在画布上放置二维码对象
+        // 8. 放置二维码
         function addQRCodeToCanvas() {
             const hiddenContainer = document.getElementById('hidden-qr');
             hiddenContainer.innerHTML = '';
             
-            // 动态生成二维码
             new QRCode(hiddenContainer, {
-                text: window.location.href,
-                width: 120,
-                height: 120
+                text: window.location.href, width: 120, height: 120
             });
 
             setTimeout(() => {
                 const qrImg = hiddenContainer.querySelector('img');
                 if (qrImg) {
-                    fabric.Image.fromURL(qrImg.src, function(img) {
-                        img.set({
-                            left: 215,
-                            top: 550,
-                            scaleX: 0.8,
-                            scaleY: 0.8,
-                            cornerColor: '#1C3144'
-                        });
-                        canvas.add(img);
-                        canvas.setActiveObject(img);
-                    });
+                    const imgObj = new Image();
+                    imgObj.src = qrImg.src;
+                    imgObj.onload = function() {
+                        const image = new fabric.Image(imgObj);
+                        image.set({ left: 215, top: 580, scaleX: 0.8, scaleY: 0.8, cornerColor: '#1C3144' });
+                        canvas.add(image);
+                        canvas.setActiveObject(image);
+                        canvas.renderAll();
+                    };
                 }
             }, 100);
         }
 
-        // 9. 删除选中图层
         function deleteActiveObject() {
             const activeObj = canvas.getActiveObject();
-            if (activeObj) {
-                canvas.remove(activeObj);
-            }
+            if (activeObj) canvas.remove(activeObj);
         }
 
-        // 10. 清空画布
         function clearCanvas() {
             canvas.clear();
-            setCanvasBg('#FDFBF7');
+            canvas.setBackgroundImage(null, canvas.renderAll.bind(canvas));
+            canvas.setBackgroundColor('#FDFBF7', canvas.renderAll.bind(canvas));
         }
 
-        // 11. 导出高清晰度 PNG 图片（适合打印/分享）
         function exportPNG() {
-            const dataURL = canvas.toDataURL({
-                format: 'png',
-                quality: 1.0,
-                multiplier: 2 // 放大 2 倍导出，确保清晰度
-            });
-            
+            const dataURL = canvas.toDataURL({ format: 'png', quality: 1.0, multiplier: 2 });
             const link = document.createElement('a');
             link.download = 'custom-menu.png';
             link.href = dataURL;
