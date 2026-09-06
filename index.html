@@ -11,7 +11,7 @@
     
     <link rel="stylesheet" href="/dist/output.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 引入 3D 倾斜效果库 -->
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 
     <style>
@@ -33,7 +33,7 @@
             font-family: 'Lora', serif;
         }
 
-        /* 炫酷卡片悬浮光效 */
+        
         .glow-card {
             position: relative;
             transform-style: preserve-3d;
@@ -56,7 +56,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased">
 
-    <!-- Header 导航栏 -->
+    
     <header class="py-5 px-6 border-b border-[#2C2A29]/5">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <a href="/" class="flex items-center gap-2 group">
@@ -79,7 +79,7 @@
     <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-6 py-12 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
-        <!-- 左侧文案区 -->
+        
         <div class="lg:col-span-6 space-y-6 text-left">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D97757]/10 text-[#D97757] text-xs font-semibold">
                 <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Live Interactive Templates
@@ -99,9 +99,9 @@
             </div>
         </div>
 
-        <!-- 右侧：带有 3D 视差与光效的菜单卡片 -->
+        
         <div id="samples" class="lg:col-span-6 flex flex-col items-center justify-center w-full">
-            <!-- 绑定 3D Tilt 数据属性 -->
+            
             <div id="carousel-card" 
                  data-tilt 
                  data-tilt-max="10" 
@@ -110,12 +110,12 @@
                  data-tilt-max-glare="0.2"
                  class="glow-card w-full max-w-md bg-white p-6 rounded-2xl shadow-xl border border-[#2C2A29]/5 space-y-5 text-center cursor-pointer">
                 
-                <!-- 轮播图片 -->
+                
                 <div class="relative w-full h-80 rounded-lg overflow-hidden bg-[#FDFBF7] flex items-center justify-center border border-[#2C2A29]/5">
                     <img id="carousel-img" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" alt="Menu Sample" class="w-full h-full object-cover transition-opacity duration-500 opacity-100">
                 </div>
 
-                <!-- 指示与控制栏 -->
+                
                 <div class="flex items-center justify-between px-2" style="transform: translateZ(20px);">
                     <button id="prev-btn" class="p-2 rounded-full hover:bg-[#FDFBF7] text-[#8C8275] hover:text-[#2C2A29]">
                         <i data-lucide="chevron-left" class="w-5 h-5"></i>
@@ -136,7 +136,7 @@
         <p>© 2026 Menu Studio by <a href="https://www.matrixqr.cc/" class="underline hover:text-[#2C2A29]">MatrixQR</a>. All rights reserved.</p>
     </footer>
 
-    <!-- 逻辑脚本 -->
+    
     <script>
         const samples = [
             { id: "modern-bistro", title: "Sample 1: Modern Bistro", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" },
@@ -159,7 +159,7 @@
                 const current = samples[index];
                 imgEl.src = current.img;
                 titleEl.textContent = current.title;
-                // 关键点：动态更新跳转链接，带上对应的 template ID 参数！
+                
                 ctaEl.href = `/editor.html?template=${current.id}`;
                 
                 imgEl.classList.remove('opacity-0');
@@ -202,7 +202,7 @@
             startAutoPlay();
         };
 
-        // 点击卡片直接以当前模板进入编辑页
+        
         cardEl.onclick = () => {
             window.location.href = ctaEl.href;
         };
@@ -213,7 +213,7 @@
         window.onload = function() {
             if (typeof lucide !== 'undefined') lucide.createIcons();
             startAutoPlay();
-            // 初始化 3D Tilt 效果
+            
             if (typeof VanillaTilt !== 'undefined') {
                 VanillaTilt.init(document.querySelectorAll("[data-tilt]"));
             }
