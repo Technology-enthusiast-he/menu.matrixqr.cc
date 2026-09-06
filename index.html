@@ -3,404 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Press Studio - Custom Template & Canvas Editor | MatrixQR</title>
+    <title>Menu QR Generator - 扫码看菜单</title>
     
-    <!-- 谷歌复古字体库 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- 静态样式与 Lucide 图标 -->
-    <link rel="stylesheet" href="/dist/output.css">
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Fabric.js 画布引擎 & 二维码生成库 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <!-- 二维码生成库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-    <style>
-        :root {
-            --bg-warm: #F4F0EA;
-            --text-main: #2C2A29;
-            --accent-blue: #1C3144;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-warm);
-            color: var(--text-main);
-        }
-
-        /* 保证 Canvas 容器带有明显的立体阴影 */
-        .canvas-container {
-            margin: 0 auto !important;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid rgba(44, 42, 41, 0.15);
-        }
-    </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased">
+<body class="bg-slate-50 min-h-screen text-slate-800 font-sans flex flex-col justify-between">
 
-    <!-- 顶部导航与导出工具栏 -->
-    <header class="py-4 px-6 border-b border-[#2C2A29]/10 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="/" class="flex items-center gap-2">
-                <span class="w-3.5 h-3.5 rounded-full bg-[#1C3144]"></span>
-                <span class="font-bold text-xl tracking-tight text-[#2C2A29]">Menu Studio Pro</span>
-            </a>
-
-            <div class="flex items-center gap-3">
-                <button id="btn-export-png" onclick="exportPNG()" class="px-4 py-2 rounded-lg bg-[#2C2A29]/5 hover:bg-[#2C2A29]/10 text-[#2C2A29] text-xs font-semibold flex items-center gap-1.5 transition-all">
-                    <i data-lucide="download" class="w-4 h-4"></i> 导出高清图片 (PNG)
-                </button>
-                <button id="btn-generate-qr" onclick="addQRCodeToCanvas()" class="px-4 py-2 rounded-lg bg-[#1C3144] hover:bg-[#11202e] text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm">
-                    <i data-lucide="qr-code" class="w-4 h-4"></i> 生成二维码到菜单
-                </button>
+    <!-- 顶栏 -->
+    <header class="bg-white border-b border-slate-200 py-4 px-6 shadow-sm">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">Q</div>
+                <h1 class="text-lg font-bold text-slate-900">电子菜单二维码生成器</h1>
             </div>
+            <span class="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">无需服务器·即传即用</span>
         </div>
     </header>
 
-    <!-- 工作区 -->
-    <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <!-- 主体区域 -->
+    <main class="max-w-4xl mx-auto px-6 py-10 flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         
-        <!-- 左侧编辑控制面板 -->
-        <div class="lg:col-span-5 space-y-6 bg-white p-6 rounded-2xl shadow-sm border border-[#2C2A29]/10 max-h-[85vh] overflow-y-auto">
-            
-            <!-- 1. 选择预设排版模板 / 背景上传 -->
-            <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">1. 模板与底图选择</h3>
-                <div class="grid grid-cols-2 gap-2 mb-3">
-                    <button onclick="loadPresetTemplate('vintage')" class="p-2.5 border rounded-xl text-left hover:border-[#1C3144] text-xs font-bold flex items-center gap-2 bg-gray-50">
-                        🗞️ 美式复古报刊
-                    </button>
-                    <button onclick="loadPresetTemplate('warm')" class="p-2.5 border rounded-xl text-left hover:border-[#1C3144] text-xs font-bold flex items-center gap-2 bg-gray-50">
-                        🥐 暖阳烘焙店
-                    </button>
-                </div>
+        <!-- 左侧：图片上传区 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                <i data-lucide="upload-cloud" class="w-5 h-5 text-indigo-600"></i> 第一步：上传菜单图片
+            </h2>
+
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50/50 relative">
+                <input type="file" id="menu-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFileSelect(event)">
                 
-                <div class="grid grid-cols-2 gap-2">
-                    <label class="p-2.5 border-2 border-dashed border-[#2C2A29]/20 rounded-xl text-center cursor-pointer hover:border-[#1C3144] transition-all flex items-center justify-center gap-1.5 bg-gray-50/50 text-xs font-semibold">
-                        <i data-lucide="image" class="w-4 h-4 text-[#1C3144]"></i>
-                        <span>上传背景底图</span>
-                        <input type="file" id="bg-upload" accept="image/*" class="hidden" onchange="uploadBackground(event)">
-                    </label>
-                    <label class="p-2.5 border-2 border-dashed border-[#2C2A29]/20 rounded-xl text-center cursor-pointer hover:border-[#1C3144] transition-all flex items-center justify-center gap-1.5 bg-gray-50/50 text-xs font-semibold">
-                        <i data-lucide="plus-circle" class="w-4 h-4 text-[#D97757]"></i>
-                        <span>插入菜品/图片</span>
-                        <input type="file" id="img-overlay-upload" accept="image/*" class="hidden" onchange="uploadOverlayImage(event)">
-                    </label>
+                <div id="upload-placeholder" class="space-y-2">
+                    <i data-lucide="image" class="w-10 h-10 text-slate-400 mx-auto"></i>
+                    <p class="text-sm font-semibold text-slate-700">点击或将菜单图片拖拽到此处</p>
+                    <p class="text-xs text-slate-400">支持 PNG, JPG, WEBP 格式</p>
                 </div>
+
+                <!-- 预览图 -->
+                <img id="image-preview" class="hidden max-h-64 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" />
             </div>
 
-            <hr class="border-[#2C2A29]/10">
-
-            <!-- 2. 快捷插入装饰元素 -->
-            <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">2. 插入符号与装饰框</h3>
-                <div class="grid grid-cols-3 gap-2">
-                    <button onclick="addCircleStamp()" class="p-2.5 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
-                        <i data-lucide="circle-dot" class="w-4 h-4 text-[#D97757]"></i> 放置圆框/公章
-                    </button>
-                    <button onclick="addDividerLine()" class="p-2.5 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
-                        <i data-lucide="minus" class="w-4 h-4 text-[#1C3144]"></i> 复古分割线
-                    </button>
-                    <button onclick="addCustomText()" class="p-2.5 border rounded-xl hover:bg-gray-50 text-xs font-semibold flex flex-col items-center gap-1">
-                        <i data-lucide="type" class="w-4 h-4 text-[#2C2A29]"></i> 添加自由文本
-                    </button>
-                </div>
-            </div>
-
-            <hr class="border-[#2C2A29]/10">
-
-            <!-- 3. 快速录入带点阵对齐（Dot Leader）的菜品 -->
-            <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">3. 添加菜单项目 (自动虚线对齐)</h3>
-                <div class="space-y-2">
-                    <input type="text" id="input-item-name" placeholder="菜名 (例如: CROISSANTS / HAM & CHEESE)" class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:border-[#1C3144]">
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="input-item-price" placeholder="价格 (例如: $8.50 或 .00)" class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:border-[#1C3144]">
-                        <input type="text" id="input-item-desc" placeholder="配料描述 (可选)" class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:border-[#1C3144]">
-                    </div>
-                    <button onclick="addMenuItemToCanvas()" class="w-full py-2 bg-[#1C3144] hover:bg-[#11202e] text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1">
-                        <i data-lucide="plus" class="w-4 h-4"></i> 插入到画布
-                    </button>
-                </div>
-            </div>
-
-            <hr class="border-[#2C2A29]/10">
-
-            <!-- 4. 图层管理 -->
-            <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-[#8C8275] mb-3">4. 图层控制</h3>
-                <div class="flex gap-2">
-                    <button onclick="deleteActiveObject()" class="px-3 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-semibold flex items-center gap-1">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i> 删除选中对象
-                    </button>
-                    <button onclick="clearCanvas()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-[#2C2A29] rounded-lg text-xs font-semibold flex items-center gap-1">
-                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> 重置画布
-                    </button>
-                </div>
-            </div>
-
+            <button id="btn-submit" onclick="uploadAndGenerate()" disabled class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
+                <i data-lucide="qr-code" class="w-4 h-4"></i> 生成电子菜单二维码
+            </button>
         </div>
 
-        <!-- 右侧 Live 可视化编辑画布 -->
-        <div class="lg:col-span-7 flex justify-center sticky top-20">
-            <canvas id="menu-canvas" width="550" height="750"></canvas>
+        <!-- 右侧：二维码展示区 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-4 flex flex-col items-center justify-center min-h-[340px]">
+            <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                <i data-lucide="smartphone" class="w-5 h-5 text-emerald-600"></i> 第二步：扫码查看菜单
+            </h2>
+
+            <!-- 加载状态 -->
+            <div id="loading-spinner" class="hidden flex-col items-center py-6 space-y-2">
+                <div class="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-xs text-slate-500 font-medium">正在上传图片并生成链接...</p>
+            </div>
+
+            <!-- 空状态提示 -->
+            <div id="qr-empty" class="py-8 text-slate-400 text-xs">
+                请先在左侧上传菜单图片
+            </div>
+
+            <!-- 二维码与下载区 -->
+            <div id="qr-result" class="hidden space-y-4 flex-col items-center">
+                <div id="qrcode-box" class="p-4 bg-white border-2 border-slate-100 rounded-2xl shadow-inner flex justify-center"></div>
+                
+                <div class="space-y-1">
+                    <p class="text-xs text-slate-500">顾客扫码后可在手机浏览器上直接查看图片</p>
+                    <a id="menu-url" href="#" target="_blank" class="text-xs text-indigo-600 hover:underline break-all block max-w-xs truncate"></a>
+                </div>
+
+                <button onclick="downloadQR()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all">
+                    <i data-lucide="download" class="w-4 h-4"></i> 下载二维码桌贴
+                </button>
+            </div>
         </div>
 
     </main>
 
-    <div id="hidden-qr" class="hidden"></div>
-
-    <!-- 核心逻辑脚本 -->
+    <!-- JS 逻辑 -->
     <script>
-        // 初始化 Fabric.js 画布
-        const canvas = new fabric.Canvas('menu-canvas', {
-            backgroundColor: '#FDFBF7',
-            preserveObjectStacking: true
-        });
+        let selectedFile = null;
 
-        window.onload = function() {
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-            loadPresetTemplate('vintage');
-        };
+        // 初始化 Lucide 图标
+        lucide.createIcons();
 
-        // 1. 加载预设排版模板（美式复古 / 暖阳烘焙）
-        function loadPresetTemplate(type) {
-            canvas.clear();
-            canvas.setBackgroundColor('#FDFBF7', canvas.renderAll.bind(canvas));
-
-            if (type === 'vintage') {
-                // 外框线
-                const borderRect = new fabric.Rect({
-                    left: 15, top: 15, width: 520, height: 720,
-                    fill: 'transparent', stroke: '#1C3144', strokeWidth: 3, selectable: false
-                });
-
-                // 店名 Header
-                const title = new fabric.IText('THE MERCHANT', {
-                    left: 135, top: 40, fontFamily: 'Playfair Display',
-                    fontSize: 34, fontWeight: 'bold', fill: '#1C3144'
-                });
-
-                const tagline = new fabric.IText('BAKERY & ROASTERY "BY THE SEA"', {
-                    left: 155, top: 85, fontFamily: 'Lora',
-                    fontSize: 12, fontStyle: 'italic', fill: '#1C3144'
-                });
-
-                // 分割双线条
-                const line1 = new fabric.Line([25, 110, 525, 110], { stroke: '#1C3144', strokeWidth: 2, selectable: false });
-                const line2 = new fabric.Line([25, 114, 525, 114], { stroke: '#1C3144', strokeWidth: 1, selectable: false });
-
-                canvas.add(borderRect, title, tagline, line1, line2);
-
-                // 预设放置几个示例带虚线菜品
-                renderMenuItem('HAM & CHEESE', '.00', 'Smoked ham, melted cheddar', 140);
-                renderMenuItem('TURKEY + HAVARTI', '.00', 'Oven roasted turkey slice', 190);
-                renderMenuItem('CINNAMON TWIST', '.00', 'Cinnamon sugar glaze', 240);
-
-                // 右侧添加一个复古印章圆框
-                addCircleStamp(380, 40);
-
-            } else if (type === 'warm') {
-                const title = new fabric.IText('MSC° BAKERY', {
-                    left: 170, top: 50, fontFamily: 'Lora',
-                    fontSize: 32, fontWeight: 'bold', fill: '#2C2A29'
-                });
-
-                const line = new fabric.Line([50, 95, 500, 95], { stroke: '#2C2A29', strokeWidth: 1.5, selectable: false });
-                canvas.add(title, line);
-
-                renderMenuItem('BREAKFAST CEREAL', '7.00', 'steel cut oats, quinoa, blueberries', 130);
-                renderMenuItem('EGGS BENEDICT', '9.50', 'lightly toasted sourdough, poached eggs', 180);
-                renderMenuItem('SOURDOUGH FRENCH TOAST', '8.25', 'whipped cream, apple compote', 230);
-            }
-
-            canvas.renderAll();
-        }
-
-        // 2. 自动点阵虚线对齐（Dot Leader）核心渲染算法
-        function renderMenuItem(name, price, desc, topY) {
-            const fontStyle = { fontFamily: 'Courier Prime', fontSize: 13, fontWeight: 'bold', fill: '#1C3144' };
-            
-            // 菜名
-            const nameText = new fabric.Text(name.toUpperCase(), { left: 40, top: topY, ...fontStyle });
-            
-            // 价格
-            const priceText = new fabric.Text(price, { top: topY, ...fontStyle });
-            priceText.set('left', 510 - priceText.width); // 右对齐
-
-            // 计算中间虚线长度
-            const startX = 45 + nameText.width;
-            const endX = priceText.left - 10;
-            let dotsStr = '';
-            if (endX > startX) {
-                const count = Math.floor((endX - startX) / 8);
-                dotsStr = '. '.repeat(count);
-            }
-
-            const dotsText = new fabric.Text(dotsStr, {
-                left: startX, top: topY,
-                fontFamily: 'Courier Prime', fontSize: 13, fill: '#1C3144', opacity: 0.5
-            });
-
-            // 描述
-            const groupArr = [nameText, dotsText, priceText];
-            if (desc) {
-                const descText = new fabric.Text(desc, {
-                    left: 40, top: topY + 18,
-                    fontFamily: 'Lora', fontSize: 10, fontStyle: 'italic', fill: '#8C8275'
-                });
-                groupArr.push(descText);
-            }
-
-            // 打包成一个可随手拖拽的组合（Group）
-            const itemGroup = new fabric.Group(groupArr, { left: 40, top: topY });
-            canvas.add(itemGroup);
-            canvas.renderAll();
-        }
-
-        function addMenuItemToCanvas() {
-            const name = document.getElementById('input-item-name').value;
-            const price = document.getElementById('input-item-price').value;
-            const desc = document.getElementById('input-item-desc').value;
-
-            if (!name) return alert('请输入菜名！');
-            renderMenuItem(name, price || '.00', desc, 300);
-
-            // 清空输入框
-            document.getElementById('input-item-name').value = '';
-            document.getElementById('input-item-price').value = '';
-            document.getElementById('input-item-desc').value = '';
-        }
-
-        // 3. 放置复古圆框/公章
-        function addCircleStamp(x = 200, y = 300) {
-            const circle = new fabric.Circle({
-                radius: 40, fill: 'rgba(217, 119, 87, 0.08)',
-                stroke: '#D97757', strokeWidth: 2, strokeDashArray: [4, 3],
-                originX: 'center', originY: 'center'
-            });
-
-            const text = new fabric.Text('FRESH\nDAILY', {
-                fontFamily: 'Courier Prime', fontSize: 11,
-                fontWeight: 'bold', fill: '#D97757', textAlign: 'center',
-                originX: 'center', originY: 'center'
-            });
-
-            const stampGroup = new fabric.Group([circle, text], { left: x, top: y });
-            canvas.add(stampGroup);
-            canvas.setActiveObject(stampGroup);
-            canvas.renderAll();
-        }
-
-        // 4. 放置分割线
-        function addDividerLine() {
-            const line = new fabric.Line([0, 0, 450, 0], {
-                stroke: '#1C3144', strokeWidth: 1.5,
-                left: 50, top: 350, cornerColor: '#1C3144'
-            });
-            canvas.add(line);
-            canvas.setActiveObject(line);
-        }
-
-        // 5. 放置自由文本
-        function addCustomText() {
-            const text = new fabric.IText('点击修改文本', {
-                left: 200, top: 200, fontSize: 16,
-                fontFamily: 'Courier Prime', fill: '#2C2A29'
-            });
-            canvas.add(text);
-            canvas.setActiveObject(text);
-        }
-
-        // 6. 本地图片背景上传
-        function uploadBackground(e) {
+        // 处理文件选择
+        function handleFileSelect(e) {
             const file = e.target.files[0];
             if (!file) return;
 
+            selectedFile = file;
+
+            // 显示图片预览
             const reader = new FileReader();
             reader.onload = function(event) {
-                const imgObj = new Image();
-                imgObj.src = event.target.result;
-                imgObj.onload = function() {
-                    const image = new fabric.Image(imgObj);
-                    image.set({
-                        scaleX: canvas.width / image.width,
-                        scaleY: canvas.height / image.height
+                const preview = document.getElementById('image-preview');
+                preview.src = event.target.result;
+                preview.classList.remove('hidden');
+                document.getElementById('upload-placeholder').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+
+            // 启用生成按钮
+            const btn = document.getElementById('btn-submit');
+            btn.disabled = false;
+            btn.classList.remove('cursor-not-allowed');
+        }
+
+        // 上传到免费公用图床并生成二维码
+        async function uploadAndGenerate() {
+            if (!selectedFile) return;
+
+            const loading = document.getElementById('loading-spinner');
+            const qrEmpty = document.getElementById('qr-empty');
+            const qrResult = document.getElementById('qr-result');
+
+            loading.classList.remove('hidden');
+            loading.classList.add('flex');
+            qrEmpty.classList.add('hidden');
+            qrResult.classList.add('hidden');
+
+            try {
+                // 使用 ImgBB 免费 API (包含匿名 Key)
+                const formData = new FormData();
+                formData.append('image', selectedFile);
+
+                const response = await fetch('https://api.imgbb.com/1/upload?key=6d257835821042962228b2610714112c', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const resData = await response.json();
+
+                if (resData.success) {
+                    const imageUrl = resData.data.url;
+
+                    // 生成二维码
+                    const qrBox = document.getElementById('qrcode-box');
+                    qrBox.innerHTML = '';
+                    new QRCode(qrBox, {
+                        text: imageUrl,
+                        width: 180,
+                        height: 180,
+                        colorDark: "#0f172a",
+                        colorLight: "#ffffff"
                     });
-                    canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
+
+                    // 更新链接
+                    const linkElem = document.getElementById('menu-url');
+                    linkElem.href = imageUrl;
+                    linkElem.textContent = imageUrl;
+
+                    loading.classList.add('hidden');
+                    qrResult.classList.remove('hidden');
+                    qrResult.classList.add('flex');
+                } else {
+                    alert('图片上传失败，请重试');
+                    loading.classList.add('hidden');
+                    qrEmpty.classList.remove('hidden');
                 }
-            };
-            reader.readAsDataURL(file);
+            } catch (err) {
+                console.error(err);
+                alert('网络错误，请检查网络连接');
+                loading.classList.add('hidden');
+                qrEmpty.classList.remove('hidden');
+            }
         }
 
-        // 7. 本地插入贴图/菜品图
-        function uploadOverlayImage(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const imgObj = new Image();
-                imgObj.src = event.target.result;
-                imgObj.onload = function() {
-                    const image = new fabric.Image(imgObj);
-                    if (image.width > 180) image.scaleToWidth(180);
-                    image.set({ left: 180, top: 250, cornerColor: '#1C3144', cornerSize: 8 });
-                    canvas.add(image);
-                    canvas.setActiveObject(image);
-                    canvas.renderAll();
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // 8. 放置二维码
-        function addQRCodeToCanvas() {
-            const hiddenContainer = document.getElementById('hidden-qr');
-            hiddenContainer.innerHTML = '';
-            
-            new QRCode(hiddenContainer, {
-                text: window.location.href, width: 120, height: 120
-            });
-
-            setTimeout(() => {
-                const qrImg = hiddenContainer.querySelector('img');
-                if (qrImg) {
-                    const imgObj = new Image();
-                    imgObj.src = qrImg.src;
-                    imgObj.onload = function() {
-                        const image = new fabric.Image(imgObj);
-                        image.set({ left: 215, top: 580, scaleX: 0.8, scaleY: 0.8, cornerColor: '#1C3144' });
-                        canvas.add(image);
-                        canvas.setActiveObject(image);
-                        canvas.renderAll();
-                    };
-                }
-            }, 100);
-        }
-
-        function deleteActiveObject() {
-            const activeObj = canvas.getActiveObject();
-            if (activeObj) canvas.remove(activeObj);
-        }
-
-        function clearCanvas() {
-            canvas.clear();
-            canvas.setBackgroundImage(null, canvas.renderAll.bind(canvas));
-            canvas.setBackgroundColor('#FDFBF7', canvas.renderAll.bind(canvas));
-        }
-
-        function exportPNG() {
-            const dataURL = canvas.toDataURL({ format: 'png', quality: 1.0, multiplier: 2 });
-            const link = document.createElement('a');
-            link.download = 'custom-menu.png';
-            link.href = dataURL;
-            link.click();
+        // 下载二维码图片
+        function downloadQR() {
+            const qrImg = document.querySelector('#qrcode-box img');
+            if (qrImg) {
+                const a = document.createElement('a');
+                a.href = qrImg.src;
+                a.download = 'menu-qrcode.png';
+                a.click();
+            }
         }
     </script>
 </body>
