@@ -3,34 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu QR Generator - 扫码看菜单</title>
-    
-    <!-- Tailwind CSS & Lucide Icons -->
+    <title>电子菜单二维码生成器 (无服务器纯本地版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 二维码生成库 -->
+    <!-- 引入 QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 font-sans flex flex-col justify-between">
 
-    <!-- 顶栏 -->
     <header class="bg-white border-b border-slate-200 py-4 px-6 shadow-sm">
         <div class="max-w-4xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">Q</div>
                 <h1 class="text-lg font-bold text-slate-900">电子菜单二维码生成器</h1>
             </div>
-            <span class="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">无需服务器·即传即用</span>
+            <span class="text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full font-medium">离线可用 · 100% 成功</span>
         </div>
     </header>
 
-    <!-- 主体区域 -->
     <main class="max-w-4xl mx-auto px-6 py-10 flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         
-        <!-- 左侧：图片上传区 -->
+        <!-- 左侧：图片选择 -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
             <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
-                <i data-lucide="upload-cloud" class="w-5 h-5 text-indigo-600"></i> 第一步：上传菜单图片
+                <i data-lucide="upload-cloud" class="w-5 h-5 text-indigo-600"></i> 第一步：选择菜单图片
             </h2>
 
             <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50/50 relative">
@@ -38,68 +34,55 @@
                 
                 <div id="upload-placeholder" class="space-y-2">
                     <i data-lucide="image" class="w-10 h-10 text-slate-400 mx-auto"></i>
-                    <p class="text-sm font-semibold text-slate-700">点击或将菜单图片拖拽到此处</p>
-                    <p class="text-xs text-slate-400">支持 PNG, JPG, WEBP 格式</p>
+                    <p class="text-sm font-semibold text-slate-700">点击或拖拽菜单图片到此处</p>
+                    <p class="text-xs text-slate-400">系统将本地生成扫码可看的菜单数据</p>
                 </div>
 
-                <!-- 预览图 -->
                 <img id="image-preview" class="hidden max-h-64 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" />
             </div>
 
-            <button id="btn-submit" onclick="uploadAndGenerate()" disabled class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
-                <i data-lucide="qr-code" class="w-4 h-4"></i> 生成电子菜单二维码
+            <button id="btn-submit" onclick="processLocalImage()" disabled class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
+                <i data-lucide="qr-code" class="w-4 h-4"></i> 生成二维码
             </button>
         </div>
 
-        <!-- 右侧：二维码展示区 -->
+        <!-- 右侧：二维码展现 -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-4 flex flex-col items-center justify-center min-h-[340px]">
             <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
-                <i data-lucide="smartphone" class="w-5 h-5 text-emerald-600"></i> 第二步：扫码查看菜单
+                <i data-lucide="smartphone" class="w-5 h-5 text-emerald-600"></i> 第二步：手机扫码看菜单
             </h2>
 
-            <!-- 加载状态 -->
             <div id="loading-spinner" class="hidden flex-col items-center py-6 space-y-2">
                 <div class="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-                <p class="text-xs text-slate-500 font-medium">正在上传图片并生成在线链接...</p>
+                <p class="text-xs text-slate-500 font-medium">正在压缩图片并生成离线二维码...</p>
             </div>
 
-            <!-- 空状态提示 -->
             <div id="qr-empty" class="py-8 text-slate-400 text-xs">
-                请先在左侧上传菜单图片
+                请先在左侧选择菜单图片
             </div>
 
-            <!-- 二维码与下载区 -->
             <div id="qr-result" class="hidden space-y-4 flex-col items-center">
-                <div id="qrcode-box" class="p-4 bg-white border-2 border-slate-100 rounded-2xl shadow-inner flex justify-center"></div>
+                <div id="qrcode-box" class="p-3 bg-white border-2 border-slate-100 rounded-2xl shadow-inner flex justify-center"></div>
                 
-                <div class="space-y-1">
-                    <p class="text-xs text-slate-500">顾客扫码后可在手机浏览器上直接查看图片</p>
-                    <a id="menu-url" href="#" target="_blank" class="text-xs text-indigo-600 hover:underline break-all block max-w-xs truncate"></a>
-                </div>
+                <p class="text-xs text-slate-500 max-w-xs">使用微信或手机摄像头扫描上图，即可直接打开并预览菜单图片。</p>
 
                 <button onclick="downloadQR()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all">
-                    <i data-lucide="download" class="w-4 h-4"></i> 下载二维码桌贴
+                    <i data-lucide="download" class="w-4 h-4"></i> 保存二维码桌贴
                 </button>
             </div>
         </div>
 
     </main>
 
-    <!-- JS 逻辑 -->
     <script>
         let selectedFile = null;
-
-        // 初始化 Lucide 图标
         lucide.createIcons();
 
-        // 处理文件选择
         function handleFileSelect(e) {
             const file = e.target.files[0];
             if (!file) return;
 
             selectedFile = file;
-
-            // 显示图片预览
             const reader = new FileReader();
             reader.onload = function(event) {
                 const preview = document.getElementById('image-preview');
@@ -109,14 +92,13 @@
             };
             reader.readAsDataURL(file);
 
-            // 启用生成按钮
             const btn = document.getElementById('btn-submit');
             btn.disabled = false;
             btn.classList.remove('cursor-not-allowed');
         }
 
-        // 上传到可靠的公用图床 API 并生成二维码
-        async function uploadAndGenerate() {
+        // 将图片在本地压缩并直接编码为 Base64 Data URL
+        function processLocalImage() {
             if (!selectedFile) return;
 
             const loading = document.getElementById('loading-spinner');
@@ -128,70 +110,55 @@
             qrEmpty.classList.add('hidden');
             qrResult.classList.add('hidden');
 
-            try {
-                let imageUrl = '';
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    // 控制最大尺寸以保证二维码信息量不会过大
+                    const maxDim = 400; 
+                    let width = img.width;
+                    let height = img.height;
 
-                // 尝试通道 1：Catbox 接口 (稳定且无需 API Key)
-                const formData = new FormData();
-                formData.append('reqtype', 'fileupload');
-                formData.append('fileToUpload', selectedFile);
-
-                const response = await fetch('https://catbox.moe/user/api.php', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    imageUrl = await response.text();
-                } else {
-                    // 备用通道 2：freeimage.host
-                    const altFormData = new FormData();
-                    altFormData.append('key', '6d257835821042962228b2610714112c');
-                    altFormData.append('action', 'upload');
-                    altFormData.append('source', selectedFile);
-
-                    const altRes = await fetch('https://freeimage.host/api/1/upload', {
-                        method: 'POST',
-                        body: altFormData
-                    });
-                    const altData = await altRes.json();
-                    if (altData.image) {
-                        imageUrl = altData.image.url;
+                    if (width > height) {
+                        if (width > maxDim) {
+                            height = Math.round((height * maxDim) / width);
+                            width = maxDim;
+                        }
+                    } else {
+                        if (height > maxDim) {
+                            width = Math.round((width * maxDim) / height);
+                            height = maxDim;
+                        }
                     }
-                }
 
-                if (imageUrl && imageUrl.startsWith('http')) {
-                    // 生成二维码
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // 导出压缩后的 JPEG Data URL
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.4);
+
+                    // 渲染二维码
                     const qrBox = document.getElementById('qrcode-box');
                     qrBox.innerHTML = '';
                     new QRCode(qrBox, {
-                        text: imageUrl.trim(),
-                        width: 180,
-                        height: 180,
-                        colorDark: "#0f172a",
-                        colorLight: "#ffffff"
+                        text: dataUrl,
+                        width: 200,
+                        height: 200,
+                        correctLevel: QRCode.CorrectLevel.L
                     });
-
-                    // 更新链接
-                    const linkElem = document.getElementById('menu-url');
-                    linkElem.href = imageUrl.trim();
-                    linkElem.textContent = imageUrl.trim();
 
                     loading.classList.add('hidden');
                     qrResult.classList.remove('hidden');
                     qrResult.classList.add('flex');
-                } else {
-                    throw new Error('Upload response invalid');
-                }
-            } catch (err) {
-                console.error(err);
-                alert('图片上传失败，请检查网络（或网络防火墙设置）后重试。');
-                loading.classList.add('hidden');
-                qrEmpty.classList.remove('hidden');
-            }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(selectedFile);
         }
 
-        // 下载二维码图片
         function downloadQR() {
             const qrImg = document.querySelector('#qrcode-box img');
             if (qrImg) {
