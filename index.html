@@ -60,7 +60,7 @@
             <!-- 加载状态 -->
             <div id="loading-spinner" class="hidden flex-col items-center py-6 space-y-2">
                 <div class="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-                <p class="text-xs text-slate-500 font-medium">正在上传图片并生成链接...</p>
+                <p class="text-xs text-slate-500 font-medium">正在上传图片并生成在线链接...</p>
             </div>
 
             <!-- 空状态提示 -->
@@ -115,7 +115,7 @@
             btn.classList.remove('cursor-not-allowed');
         }
 
-        // 上传到免费公用图床并生成二维码
+        // 上传到可靠的公用图床 API 并生成二维码
         async function uploadAndGenerate() {
             if (!selectedFile) return;
 
@@ -129,25 +129,43 @@
             qrResult.classList.add('hidden');
 
             try {
-                // 使用 ImgBB 免费 API (包含匿名 Key)
-                const formData = new FormData();
-                formData.append('image', selectedFile);
+                let imageUrl = '';
 
-                const response = await fetch('https://api.imgbb.com/1/upload?key=6d257835821042962228b2610714112c', {
+                // 尝试通道 1：Catbox 接口 (稳定且无需 API Key)
+                const formData = new FormData();
+                formData.append('reqtype', 'fileupload');
+                formData.append('fileToUpload', selectedFile);
+
+                const response = await fetch('https://catbox.moe/user/api.php', {
                     method: 'POST',
                     body: formData
                 });
 
-                const resData = await response.json();
+                if (response.ok) {
+                    imageUrl = await response.text();
+                } else {
+                    // 备用通道 2：freeimage.host
+                    const altFormData = new FormData();
+                    altFormData.append('key', '6d257835821042962228b2610714112c');
+                    altFormData.append('action', 'upload');
+                    altFormData.append('source', selectedFile);
 
-                if (resData.success) {
-                    const imageUrl = resData.data.url;
+                    const altRes = await fetch('https://freeimage.host/api/1/upload', {
+                        method: 'POST',
+                        body: altFormData
+                    });
+                    const altData = await altRes.json();
+                    if (altData.image) {
+                        imageUrl = altData.image.url;
+                    }
+                }
 
+                if (imageUrl && imageUrl.startsWith('http')) {
                     // 生成二维码
                     const qrBox = document.getElementById('qrcode-box');
                     qrBox.innerHTML = '';
                     new QRCode(qrBox, {
-                        text: imageUrl,
+                        text: imageUrl.trim(),
                         width: 180,
                         height: 180,
                         colorDark: "#0f172a",
@@ -156,20 +174,18 @@
 
                     // 更新链接
                     const linkElem = document.getElementById('menu-url');
-                    linkElem.href = imageUrl;
-                    linkElem.textContent = imageUrl;
+                    linkElem.href = imageUrl.trim();
+                    linkElem.textContent = imageUrl.trim();
 
                     loading.classList.add('hidden');
                     qrResult.classList.remove('hidden');
                     qrResult.classList.add('flex');
                 } else {
-                    alert('图片上传失败，请重试');
-                    loading.classList.add('hidden');
-                    qrEmpty.classList.remove('hidden');
+                    throw new Error('Upload response invalid');
                 }
             } catch (err) {
                 console.error(err);
-                alert('网络错误，请检查网络连接');
+                alert('图片上传失败，请检查网络（或网络防火墙设置）后重试。');
                 loading.classList.add('hidden');
                 qrEmpty.classList.remove('hidden');
             }
