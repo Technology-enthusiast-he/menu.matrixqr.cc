@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Studio | Digital Menu Generator - MatrixQR</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/dist/output.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 引入 3D 倾斜效果库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+    <style>
+        :root {
+            --bg-warm: #FDFBF7;
+            --text-main: #2C2A29;
+            --text-muted: #8C8275;
+            --accent-clay: #D97757;
+            --accent-green: #3A4D39;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--text-main);
+        }
+
+        .font-serif-warm {
+            font-family: 'Lora', serif;
+        }
+
+        /* 炫酷卡片悬浮光效 */
+        .glow-card {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+        }
+        .glow-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 1.25rem;
+            background: linear-gradient(135deg, rgba(217,119,87,0.3), rgba(58,77,57,0.2));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .glow-card:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header 导航栏 -->
+    <header class="py-5 px-6 border-b border-[#2C2A29]/5">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="/" class="flex items-center gap-2 group">
+                <span class="w-3.5 h-3.5 rounded-full bg-[#D97757]"></span>
+                <span class="font-serif-warm font-bold text-xl tracking-tight text-[#2C2A29]">Menu Studio</span>
+            </a>
+
+            <nav class="flex items-center gap-6 text-sm font-medium">
+                <a href="https://www.matrixqr.cc/" class="text-[#8C8275] hover:text-[#2C2A29] transition-colors flex items-center gap-1">
+                    Main Studio <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+                <a href="https://blog.matrixqr.cc/" class="text-[#8C8275] hover:text-[#2C2A29] transition-colors">Blog</a>
+                <a href="/editor.html" class="px-4 py-2 rounded-full bg-[#3A4D39] hover:bg-[#2C2A29] text-white transition-all text-xs font-semibold shadow-sm hover:shadow">
+                    Create Menu
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 py-12 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- 左侧文案区 -->
+        <div class="lg:col-span-6 space-y-6 text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D97757]/10 text-[#D97757] text-xs font-semibold">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Live Interactive Templates
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-serif-warm font-bold leading-tight text-[#2C2A29]">
+                Craft Elegant Menus for Your Restaurant
+            </h1>
+            <p class="text-[#8C8275] text-base leading-relaxed max-w-lg">
+                Select a ready-to-use template, customize your menu items, and generate instantly downloadable digital or printable menus.
+            </p>
+            
+            <div class="pt-2 flex items-center gap-4">
+                <a id="cta-link" href="/editor.html?template=modern-bistro" class="px-6 py-3.5 bg-[#D97757] hover:bg-[#b85e41] text-white font-semibold rounded-xl transition-all shadow-md flex items-center gap-2 group">
+                    <span>Use This Template</span> 
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- 右侧：带有 3D 视差与光效的菜单卡片 -->
+        <div id="samples" class="lg:col-span-6 flex flex-col items-center justify-center w-full">
+            <!-- 绑定 3D Tilt 数据属性 -->
+            <div id="carousel-card" 
+                 data-tilt 
+                 data-tilt-max="10" 
+                 data-tilt-speed="400" 
+                 data-tilt-glare 
+                 data-tilt-max-glare="0.2"
+                 class="glow-card w-full max-w-md bg-white p-6 rounded-2xl shadow-xl border border-[#2C2A29]/5 space-y-5 text-center cursor-pointer">
+                
+                <!-- 轮播图片 -->
+                <div class="relative w-full h-80 rounded-lg overflow-hidden bg-[#FDFBF7] flex items-center justify-center border border-[#2C2A29]/5">
+                    <img id="carousel-img" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" alt="Menu Sample" class="w-full h-full object-cover transition-opacity duration-500 opacity-100">
+                </div>
+
+                <!-- 指示与控制栏 -->
+                <div class="flex items-center justify-between px-2" style="transform: translateZ(20px);">
+                    <button id="prev-btn" class="p-2 rounded-full hover:bg-[#FDFBF7] text-[#8C8275] hover:text-[#2C2A29]">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
+                    <span id="sample-title" class="font-serif-warm text-sm font-semibold text-[#2C2A29]">
+                        Sample 1: Modern Bistro
+                    </span>
+                    <button id="next-btn" class="p-2 rounded-full hover:bg-[#FDFBF7] text-[#8C8275] hover:text-[#2C2A29]">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="py-6 text-center text-xs text-[#8C8275] border-t border-[#2C2A29]/5 mt-10">
+        <p>© 2026 Menu Studio by <a href="https://www.matrixqr.cc/" class="underline hover:text-[#2C2A29]">MatrixQR</a>. All rights reserved.</p>
+    </footer>
+
+    <!-- 逻辑脚本 -->
+    <script>
+        const samples = [
+            { id: "modern-bistro", title: "Sample 1: Modern Bistro", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" },
+            { id: "minimal-cafe", title: "Sample 2: Elegant Cafe", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600" },
+            { id: "japanese-dining", title: "Sample 3: Japanese Dining", img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600" }
+        ];
+        let currentIndex = 0;
+        let timer = null;
+
+        const imgEl = document.getElementById('carousel-img');
+        const titleEl = document.getElementById('sample-title');
+        const ctaEl = document.getElementById('cta-link');
+        const cardEl = document.getElementById('carousel-card');
+
+        function updateCarousel(index) {
+            imgEl.classList.remove('opacity-100');
+            imgEl.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                const current = samples[index];
+                imgEl.src = current.img;
+                titleEl.textContent = current.title;
+                // 关键点：动态更新跳转链接，带上对应的 template ID 参数！
+                ctaEl.href = `/editor.html?template=${current.id}`;
+                
+                imgEl.classList.remove('opacity-0');
+                imgEl.classList.add('opacity-100');
+            }, 200);
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % samples.length;
+            updateCarousel(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + samples.length) % samples.length;
+            updateCarousel(currentIndex);
+        }
+
+        function startAutoPlay() {
+            if (!timer) timer = setInterval(nextSlide, 3500);
+        }
+
+        function stopAutoPlay() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        document.getElementById('prev-btn').onclick = (e) => {
+            e.stopPropagation();
+            stopAutoPlay();
+            prevSlide();
+            startAutoPlay();
+        };
+
+        document.getElementById('next-btn').onclick = (e) => {
+            e.stopPropagation();
+            stopAutoPlay();
+            nextSlide();
+            startAutoPlay();
+        };
+
+        // 点击卡片直接以当前模板进入编辑页
+        cardEl.onclick = () => {
+            window.location.href = ctaEl.href;
+        };
+
+        cardEl.addEventListener('mouseenter', stopAutoPlay);
+        cardEl.addEventListener('mouseleave', startAutoPlay);
+
+        window.onload = function() {
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            startAutoPlay();
+            // 初始化 3D Tilt 效果
+            if (typeof VanillaTilt !== 'undefined') {
+                VanillaTilt.init(document.querySelectorAll("[data-tilt]"));
+            }
+        }
+    </script>
+</body>
+</html>
