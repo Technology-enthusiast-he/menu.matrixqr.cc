@@ -15,7 +15,7 @@
     <header class="bg-white border-b border-slate-200 py-4 px-6 shadow-sm">
         <div class="max-w-5xl mx-auto flex items-center justify-between">
             <!-- Home/Main Site Link Logo -->
-            <a href="https://www.matrixqr.cc/" class="flex items-center gap-2 group transition-all" title="Back to Main Site">
+            <a href="https://menu.matrixqr.cc/" class="flex items-center gap-2 group transition-all" title="Back to Main Site">
                 <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold group-hover:bg-indigo-700 transition-colors">
                     M
                 </div>
@@ -151,7 +151,7 @@
             qrResult.classList.add('hidden');
 
             try {
-                // 将图片转换成 ArrayBuffer 后传输，避免网络中断
+                
                 const arrayBuffer = await selectedFile.arrayBuffer();
 
                 const response = await fetch('/api/upload', {
@@ -167,7 +167,7 @@
                 if (response.ok && resData.url) {
                     const imageUrl = resData.url;
 
-                    // 生成二维码
+                    
                     const qrBox = document.getElementById('qrcode-box');
                     qrBox.innerHTML = '';
                     new QRCode(qrBox, {
