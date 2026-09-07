@@ -2,11 +2,14 @@
   "name": "menu-matrixqr-cc",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify"
   },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.0.0"
+  },
   "devDependencies": {
     "tailwindcss": "^3.4.1"
-    "@aws-sdk/client-s3": "^3.0.0"
   }
 }
