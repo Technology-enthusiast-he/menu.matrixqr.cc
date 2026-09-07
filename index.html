@@ -1,32 +1,47 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>电子菜单二维码生成器 (无服务器纯本地版)</title>
+    <title>Digital Menu QR Code Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 引入 QRCode.js -->
+    <!-- QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 font-sans flex flex-col justify-between">
 
+    <!-- Header Navigation Bar -->
     <header class="bg-white border-b border-slate-200 py-4 px-6 shadow-sm">
-        <div class="max-w-4xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">Q</div>
-                <h1 class="text-lg font-bold text-slate-900">电子菜单二维码生成器</h1>
+        <div class="max-w-5xl mx-auto flex items-center justify-between">
+            <!-- Home/Main Site Link Logo -->
+            <a href="https://yourmainwebsite.com" class="flex items-center gap-2 group transition-all" title="Back to Main Site">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold group-hover:bg-indigo-700 transition-colors">
+                    M
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Digital Menu QR</span>
+                    <span class="text-[10px] text-slate-400 font-normal">by MainBrand</span>
+                </div>
+            </a>
+
+            <!-- Badge -->
+            <div class="flex items-center gap-4">
+                <a href="https://yourmainwebsite.com" class="text-xs text-slate-500 hover:text-indigo-600 font-medium hidden sm:inline-block">Main Site</a>
+                <span class="text-xs text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full font-medium flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Fast & Reliable
+                </span>
             </div>
-            <span class="text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full font-medium">离线可用 · 100% 成功</span>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-6 py-10 flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+    <!-- Main Content Area -->
+    <main class="max-w-5xl mx-auto px-6 py-10 flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         
-        <!-- 左侧：图片选择 -->
+        <!-- Step 1: Image Selection -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
             <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
-                <i data-lucide="upload-cloud" class="w-5 h-5 text-indigo-600"></i> 第一步：选择菜单图片
+                <i data-lucide="upload-cloud" class="w-5 h-5 text-indigo-600"></i> Step 1: Upload Menu Image
             </h2>
 
             <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50/50 relative">
@@ -34,46 +49,72 @@
                 
                 <div id="upload-placeholder" class="space-y-2">
                     <i data-lucide="image" class="w-10 h-10 text-slate-400 mx-auto"></i>
-                    <p class="text-sm font-semibold text-slate-700">点击或拖拽菜单图片到此处</p>
-                    <p class="text-xs text-slate-400">系统将本地生成扫码可看的菜单数据</p>
+                    <p class="text-sm font-semibold text-slate-700">Click or drag & drop menu image here</p>
+                    <p class="text-xs text-slate-400">Supports JPG, PNG, WEBP (Max 10MB)</p>
                 </div>
 
                 <img id="image-preview" class="hidden max-h-64 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" />
             </div>
 
-            <button id="btn-submit" onclick="processLocalImage()" disabled class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
-                <i data-lucide="qr-code" class="w-4 h-4"></i> 生成二维码
+            <button id="btn-submit" onclick="uploadAndGenerate()" disabled class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
+                <i data-lucide="qr-code" class="w-4 h-4"></i> Generate QR Code
             </button>
         </div>
 
-        <!-- 右侧：二维码展现 -->
+        <!-- Step 2: QR Code Display -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-4 flex flex-col items-center justify-center min-h-[340px]">
             <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
-                <i data-lucide="smartphone" class="w-5 h-5 text-emerald-600"></i> 第二步：手机扫码看菜单
+                <i data-lucide="smartphone" class="w-5 h-5 text-emerald-600"></i> Step 2: Scan to View Menu
             </h2>
 
+            <!-- Loading Spinner -->
             <div id="loading-spinner" class="hidden flex-col items-center py-6 space-y-2">
                 <div class="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-                <p class="text-xs text-slate-500 font-medium">正在压缩图片并生成离线二维码...</p>
+                <p class="text-xs text-slate-500 font-medium">Uploading & generating QR Code...</p>
             </div>
 
+            <!-- Empty State -->
             <div id="qr-empty" class="py-8 text-slate-400 text-xs">
-                请先在左侧选择菜单图片
+                Please select a menu image on the left first.
             </div>
 
+            <!-- Result Box -->
             <div id="qr-result" class="hidden space-y-4 flex-col items-center">
                 <div id="qrcode-box" class="p-3 bg-white border-2 border-slate-100 rounded-2xl shadow-inner flex justify-center"></div>
                 
-                <p class="text-xs text-slate-500 max-w-xs">使用微信或手机摄像头扫描上图，即可直接打开并预览菜单图片。</p>
+                <p class="text-xs text-slate-500 max-w-xs">Customers can scan this QR code with any smartphone camera to open your menu instanty.</p>
 
-                <button onclick="downloadQR()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all">
-                    <i data-lucide="download" class="w-4 h-4"></i> 保存二维码桌贴
-                </button>
+                <div class="flex gap-2 w-full max-w-xs">
+                    <a id="menu-url" href="#" target="_blank" class="hidden"></a>
+                    <button onclick="downloadQR()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all">
+                        <i data-lucide="download" class="w-4 h-4"></i> Download QR Sticker
+                    </button>
+                </div>
             </div>
         </div>
 
     </main>
 
+    <!-- Footer Area -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8 px-6">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <!-- Brand & Copyright -->
+            <div class="flex items-center gap-2">
+                <span class="font-semibold text-slate-700">MainBrand</span>
+                <span>© 2026 All rights reserved.</span>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="flex items-center gap-6">
+                <a href="https://yourmainwebsite.com" class="hover:text-indigo-600 transition-colors">Main Site</a>
+                <a href="https://yourmainwebsite.com/privacy" class="hover:text-indigo-600 transition-colors">Privacy Policy</a>
+                <a href="https://yourmainwebsite.com/terms" class="hover:text-indigo-600 transition-colors">Terms of Service</a>
+                <a href="https://yourmainwebsite.com/contact" class="hover:text-indigo-600 transition-colors">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script Section -->
     <script>
         let selectedFile = null;
         lucide.createIcons();
@@ -97,8 +138,7 @@
             btn.classList.remove('cursor-not-allowed');
         }
 
-        // 将图片在本地压缩并直接编码为 Base64 Data URL
-        function processLocalImage() {
+        async function uploadAndGenerate() {
             if (!selectedFile) return;
 
             const loading = document.getElementById('loading-spinner');
@@ -110,53 +150,50 @@
             qrEmpty.classList.add('hidden');
             qrResult.classList.add('hidden');
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    // 控制最大尺寸以保证二维码信息量不会过大
-                    const maxDim = 400; 
-                    let width = img.width;
-                    let height = img.height;
+            try {
+                // Call API backend (/api/upload)
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': selectedFile.type || 'application/octet-stream'
+                    },
+                    body: selectedFile
+                });
 
-                    if (width > height) {
-                        if (width > maxDim) {
-                            height = Math.round((height * maxDim) / width);
-                            width = maxDim;
-                        }
-                    } else {
-                        if (height > maxDim) {
-                            width = Math.round((width * maxDim) / height);
-                            height = maxDim;
-                        }
-                    }
+                const resData = await response.json();
 
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
+                if (response.ok && resData.url) {
+                    const imageUrl = resData.url;
 
-                    // 导出压缩后的 JPEG Data URL
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.4);
-
-                    // 渲染二维码
+                    // Generate QR code with return URL
                     const qrBox = document.getElementById('qrcode-box');
                     qrBox.innerHTML = '';
                     new QRCode(qrBox, {
-                        text: dataUrl,
-                        width: 200,
-                        height: 200,
-                        correctLevel: QRCode.CorrectLevel.L
+                        text: imageUrl,
+                        width: 180,
+                        height: 180,
+                        colorDark: "#0f172a",
+                        colorLight: "#ffffff"
                     });
+
+                    // Set URL link
+                    const linkElem = document.getElementById('menu-url');
+                    linkElem.href = imageUrl;
 
                     loading.classList.add('hidden');
                     qrResult.classList.remove('hidden');
                     qrResult.classList.add('flex');
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(selectedFile);
+                } else {
+                    alert('Upload failed: ' + (resData.error || 'Unknown error'));
+                    loading.classList.add('hidden');
+                    qrEmpty.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Network error, please try again.');
+                loading.classList.add('hidden');
+                qrEmpty.classList.remove('hidden');
+            }
         }
 
         function downloadQR() {
