@@ -1,0 +1,78 @@
+# LLM Full Content Access — https://menu.matrixqr.cc/
+# This file provides a comprehensive summary of the website for AI models.
+# Last updated: 2026-09-07
+
+## Website Overview
+
+**Name:** Free Digital Menu QR Code Generator  
+**URL:** https://menu.matrixqr.cc/  
+**Brand:** MainBrand (MatrixQR Studio)  
+**Parent Site:** https://matrixqr.cc  
+**Blog:** https://blog.matrixqr.cc/  
+**Privacy Policy:** https://blog.matrixqr.cc/posts/privacy-policy  
+**Language:** English  
+**Last Updated:** 2026-09-07  
+
+## What This Site Does
+
+This website is a free, no-signup tool that allows restaurant owners, cafe operators, and bar managers to convert their menu images into QR codes for contactless (paperless) dining experiences.
+
+### Core Functionality
+
+1. **Upload Menu Image:** Users drag and drop or click to upload a menu image. Supported formats are JPG, PNG, and WEBP, with a maximum file size of 10MB.
+2. **Generate QR Code:** The uploaded image is processed client-side in the browser, and a QR code is generated that encodes the image URL.
+3. **Scan to View:** Customers scan the QR code with any smartphone camera to instantly view the menu on their mobile device.
+4. **Download QR Sticker:** Users can download the generated QR code as a sticker image for printing and physical display at tables or entrances.
+
+## Technical Details
+
+- **Architecture:** 100% client-side (zero-backend). All image processing and QR code generation happen locally in the user's browser.
+- **No Data Collection:** Menu images and generated QR codes are never transmitted to or stored on remote servers.
+- **Hosting:** Vercel and GitHub Infrastructure.
+- **CDN:** jsDelivr and Unpkg for content delivery.
+- **Libraries:** QRCode.js (for QR generation), Lucide Icons (for UI icons).
+- **CSS Framework:** Tailwind CSS.
+- **Analytics:** Standard log files (IP, browser type, ISP, date/time, referring pages). No persistent tracking cookies.
+
+## Site Structure
+
+### Pages
+
+| Page | URL | Description |
+|------|-----|-------------|
+| Home / Tool | https://menu.matrixqr.cc/ | Main QR code generator interface |
+| Main Site | https://matrixqr.cc | MatrixQR product suite (WiFi QR, vCard QR, etc.) |
+| Blog | https://blog.matrixqr.cc/ | Tech blog about QR codes, security, and innovation |
+| Privacy Policy | https://blog.matrixqr.cc/posts/privacy-policy | Privacy and data handling policy |
+
+### Navigation Links
+
+- **Main Site** → https://matrixqr.cc
+- **Blog** → https://blog.matrixqr.cc/
+- **Privacy Policy** → https://blog.matrixqr.cc/posts/privacy-policy
+
+## SEO Metadata
+
+- **Title:** Free Digital Menu QR Code Generator for Restaurants
+- **Description:** Convert menu images into instant QR codes for contactless dining. Easy, fast, and free online menu QR code maker for restaurants, cafes, and bars.
+- **Keywords:** digital menu QR code, restaurant menu QR maker, contact free menu, QR code menu generator
+- **Canonical URL:** https://menu.matrixqr.cc/
+- **Open Graph Title:** Free Digital Menu QR Code Generator
+- **Open Graph Description:** Upload menu images & generate instant QR codes for seamless mobile viewing.
+- **Open Graph Image:** https://menu.matrixqr.cc/og-image.png
+- **Twitter Card:** summary_large_image
+
+## Sitemap
+
+- **Sitemap URL:** https://menu.matrixqr.cc/sitemap.xml
+- **Indexed Pages:** 1 (homepage only, as this is a single-page application)
+
+## AI Crawler Policy
+
+- **Full Access:** Granted (LLM-Full-Access: true)
+- **Blocked Paths:** /api/ (internal API endpoints, not meaningful for AI training)
+- **Allowed Bots:** Googlebot, GPTBot, ClaudeBot, bingbot, Baiduspider, ByteSpider
+
+## Copyright
+
+MainBrand © 2026 All rights reserved.
