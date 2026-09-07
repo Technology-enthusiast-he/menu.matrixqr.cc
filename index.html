@@ -82,7 +82,7 @@
             <div id="qr-result" class="hidden space-y-4 flex-col items-center">
                 <div id="qrcode-box" class="p-3 bg-white border-2 border-slate-100 rounded-2xl shadow-inner flex justify-center"></div>
                 
-                <p class="text-xs text-slate-500 max-w-xs">Customers can scan this QR code with any smartphone camera to open your menu instanty.</p>
+                <p class="text-xs text-slate-500 max-w-xs">Customers can scan this QR code with any smartphone camera to open your menu instantly.</p>
 
                 <div class="flex gap-2 w-full max-w-xs">
                     <a id="menu-url" href="#" target="_blank" class="hidden"></a>
@@ -139,70 +139,35 @@
         }
 
         async function uploadAndGenerate() {
-    if (!selectedFile) return;
+            if (!selectedFile) return;
 
-    const loading = document.getElementById('loading-spinner');
-    const qrEmpty = document.getElementById('qr-empty');
-    const qrResult = document.getElementById('qr-result');
+            const loading = document.getElementById('loading-spinner');
+            const qrEmpty = document.getElementById('qr-empty');
+            const qrResult = document.getElementById('qr-result');
 
-    loading.classList.remove('hidden');
-    loading.classList.add('flex');
-    qrEmpty.classList.add('hidden');
-    qrResult.classList.add('hidden');
+            loading.classList.remove('hidden');
+            loading.classList.add('flex');
+            qrEmpty.classList.add('hidden');
+            qrResult.classList.add('hidden');
 
-    try {
-        // 将文件转为 ArrayBuffer 避免传输中断
-        const arrayBuffer = await selectedFile.arrayBuffer();
+            try {
+                // 将图片转换成 ArrayBuffer 后传输，避免网络中断
+                const arrayBuffer = await selectedFile.arrayBuffer();
 
-        const response = await fetch('/api/upload', {
-            method: 'POST',
-            headers: {
-                'content-type': selectedFile.type || 'image/jpeg'
-            },
-            body: arrayBuffer
-        });
-
-        const resData = await response.json();
-
-        if (response.ok && resData.url) {
-            const imageUrl = resData.url;
-
-            // 生成二维码
-            const qrBox = document.getElementById('qrcode-box');
-            qrBox.innerHTML = '';
-            new QRCode(qrBox, {
-                text: imageUrl,
-                width: 180,
-                height: 180,
-                colorDark: "#0f172a",
-                colorLight: "#ffffff"
-            });
-
-            const linkElem = document.getElementById('menu-url');
-            linkElem.href = imageUrl;
-
-            loading.classList.add('hidden');
-            qrResult.classList.remove('hidden');
-            qrResult.classList.add('flex');
-        } else {
-            alert('Upload failed: ' + (resData.error || 'Server error'));
-            loading.classList.add('hidden');
-            qrEmpty.classList.remove('hidden');
-        }
-    } catch (err) {
-        console.error(err);
-        alert('Network error, please try again.');
-        loading.classList.add('hidden');
-        qrEmpty.classList.remove('hidden');
-    }
-}
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': selectedFile.type || 'image/jpeg'
+                    },
+                    body: arrayBuffer
+                });
 
                 const resData = await response.json();
 
                 if (response.ok && resData.url) {
                     const imageUrl = resData.url;
 
-                    // Generate QR code with return URL
+                    // 生成二维码
                     const qrBox = document.getElementById('qrcode-box');
                     qrBox.innerHTML = '';
                     new QRCode(qrBox, {
@@ -213,7 +178,6 @@
                         colorLight: "#ffffff"
                     });
 
-                    // Set URL link
                     const linkElem = document.getElementById('menu-url');
                     linkElem.href = imageUrl;
 
@@ -221,7 +185,7 @@
                     qrResult.classList.remove('hidden');
                     qrResult.classList.add('flex');
                 } else {
-                    alert('Upload failed: ' + (resData.error || 'Unknown error'));
+                    alert('Upload failed: ' + (resData.error || 'Server error'));
                     loading.classList.add('hidden');
                     qrEmpty.classList.remove('hidden');
                 }
