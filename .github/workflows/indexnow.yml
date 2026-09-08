@@ -14,10 +14,10 @@ jobs:
           curl -v -X POST "https://api.indexnow.org/indexnow" \
           -H "Content-Type: application/json; charset=utf-8" \
           -d '{
-            "host": "blog.matrixqr.cc",
+            "host": "menu.matrixqr.cc",
             "key": "128b266e75164b4d9796276d274dbf5d",
-            "keyLocation": "https://blog.matrixqr.cc/128b266e75164b4d9796276d274dbf5d.txt",
+            "keyLocation": "https://menu.matrixqr.cc/128b266e75164b4d9796276d274dbf5d.txt",
             "urlList": [
-              "https://blog.matrixqr.cc/"
+              "https://menu.matrixqr.cc/"
             ]
           }'
