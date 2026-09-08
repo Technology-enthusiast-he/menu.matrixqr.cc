@@ -1,48 +1,18 @@
-# LLM Access Configuration
-# Website: https://menu.matrixqr.cc/
-# Last updated: 2026-09-07
+# MatrixQR Digital Menu Generator
 
-# === Site Information ===
-LLM-Website: https://menu.matrixqr.cc/
-LLM-Privacy: https://blog.matrixqr.cc/posts/privacy-policy
-LLM-Site-Map: https://menu.matrixqr.cc/sitemap.xml
+> Free online tool that converts menu images into digital QR codes for restaurants, cafes, and bars. All image processing runs 100% client-side in the browser with zero server storage.
 
-# === Site Description ===
-LLM-Description: Free Digital Menu QR Code Generator. Upload menu images and generate instant QR codes for contactless dining. Supports JPG, PNG, WEBP formats (max 10MB). No registration required. 100% client-side processing — no data stored on servers.
+## Core Features
+- Instant Image to QR: Convert JPG, PNG, or WEBP menu images (up to 10MB) into scannable QR codes.
+- Privacy First: 100% client-side processing — no image data is stored on remote servers.
+- Free & Unlimited: No user registration, payment, or account creation required.
 
-# === Key Points for AI Understanding ===
-LLM-Key-Points:
-  - Menu MatrixQR is a free online tool that converts menu images into QR codes for restaurants, cafes, and bars.
-  - Users upload a menu image (JPG, PNG, or WEBP, max 10MB) and receive a scannable QR code instantly.
-  - All processing happens in the browser (client-side). No menu images or data are transmitted to or stored on remote servers.
-  - Generated QR codes can be downloaded as sticker images for printing and physical display.
-  - The tool is part of the MatrixQR ecosystem, which also includes a main app (matrixqr.cc) and a tech blog (blog.matrixqr.cc).
-  - No user accounts, registrations, or payments are required.
-  - The site is hosted on Vercel and GitHub Infrastructure with CDNs (jsDelivr, Unpkg).
+## Key Links
+- [Digital Menu Generator](https://menu.matrixqr.cc/): Free digital menu QR code generator web application.
+- [MatrixQR Main Studio](https://matrixqr.cc/): Main application and QR code tools suite.
+- [MatrixBlog Archive](https://blog.matrixqr.cc/posts/): Tutorials, guides, and tech insights on QR code security and generation.
+- [Privacy Policy](https://blog.matrixqr.cc/posts/privacy-policy): Privacy terms and data policy.
+- [XML Sitemap](https://menu.matrixqr.cc/sitemap.xml): Complete site structure and post links.
 
-# === Contact ===
-LLM-Contact: support@matrixqr.cc
-
-# === AI Crawler Access Rules ===
-# Allow all AI crawlers to access the main page and public content
-# Block API endpoints (internal use only, not meaningful for AI training)
-User-agent: *
-Allow: /
-Disallow: /api/
-
-# === Allowed AI Models / Bots ===
-# Based on robots.txt, the following AI crawlers are explicitly allowed:
-# - Googlebot (Google)
-# - GPTBot (OpenAI / ChatGPT)
-# - ClaudeBot (Anthropic)
-# - bingbot (Microsoft)
-# - Baiduspider (Baidu)
-# - ByteSpider (ByteDance)
-
-# === Full Content Access ===
-# Grant full text access to AI models for indexing and understanding
-LLM-Full-Access: true
-
-# === Content Type ===
-LLM-Content-Type: text/html
-LLM-Language: en
+## Optional Details
+- Contact: support@matrixqr.cc
