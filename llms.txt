@@ -1,18 +1,26 @@
 # MatrixQR Digital Menu Generator
 
-> Free online tool that converts menu images into digital QR codes for restaurants, cafes, and bars. All image processing runs 100% client-side in the browser with zero server storage.
+> Free, secure, client-side online tool that converts physical menu images into scannable digital QR codes for restaurants, cafes, and bars.
 
 ## Core Features
-- Instant Image to QR: Convert JPG, PNG, or WEBP menu images (up to 10MB) into scannable QR codes.
-- Privacy First: 100% client-side processing — no image data is stored on remote servers.
-- Free & Unlimited: No user registration, payment, or account creation required.
 
-## Key Links
+- **Instant Image-to-QR**: Convert JPG, PNG, or WEBP menu images (up to 10MB) into scannable QR codes instantly.
+- **Privacy & Security**: 100% client-side execution — menu image data and generated codes are never uploaded to remote servers.
+- **Free & Frictionless**: Unlimited usage with no user registration, payment, or account creation required.
+- **Mobile Friendly**: Optimized for quick scanning and seamless display on iOS and Android devices.
+
+## Key Resources & Links
+
 - [Digital Menu Generator](https://menu.matrixqr.cc/): Free digital menu QR code generator web application.
-- [MatrixQR Main Studio](https://matrixqr.cc/): Main application and QR code tools suite.
-- [MatrixBlog Archive](https://blog.matrixqr.cc/posts/): Tutorials, guides, and tech insights on QR code security and generation.
-- [Privacy Policy](https://blog.matrixqr.cc/posts/privacy-policy): Privacy terms and data policy.
-- [XML Sitemap](https://menu.matrixqr.cc/sitemap.xml): Complete site structure and post links.
+- [MatrixQR Main Studio](https://matrixqr.cc/): Main QR code suite for WiFi, vCard, and URL generation.
+- [MatrixBlog Guides](https://blog.matrixqr.cc/posts/): Tutorials and technical insights on QR code security and generation.
+- [Privacy Policy](https://blog.matrixqr.cc/posts/privacy-policy): Privacy terms and data management standards.
+- [XML Sitemap](https://menu.matrixqr.cc/sitemap.xml): Complete site structure for search engines and AI crawlers.
 
-## Optional Details
-- Contact: support@matrixqr.cc
+## Optional / Extended Documentation
+
+- [Full Menu Specs](https://menu.matrixqr.cc/llms-full.txt): Detailed specifications, usage guidelines, and FAQ for the Digital Menu tool.
+
+## Contact & Support
+
+- **Support Email**: support@matrixqr.cc
