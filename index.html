@@ -3,30 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Digital Menu QR Code Generator for Restaurants</title>
-    <meta name="title" content="Free Digital Menu QR Code Generator for Restaurants">
+    <title>Free Digital Menu QR Code Generator | MatrixQR</title>
     <meta name="description" content="Convert menu images into instant QR codes for contactless dining. Easy, fast, and free online menu QR code maker for restaurants, cafes, and bars.">
-    <meta name="keywords" content="digital menu QR code, restaurant menu QR maker, contact free menu, QR code menu generator">
-    <meta property="og:image" content="https://menu.matrixqr.cc/og-cover.png" />
+    <meta name="keywords" content="digital menu QR code, restaurant menu QR maker, contact free menu, QR code menu generator, MatrixQR">
+    <meta name="author" content="MatrixQR Studio">
     <link rel="canonical" href="https://menu.matrixqr.cc/" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="64x64">
 
-    
+    <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://menu.matrixqr.cc/">
-    <meta property="og:title" content="Free Digital Menu QR Code Generator">
+    <meta property="og:site_name" content="MatrixQR Digital Menu">
+    <meta property="og:title" content="Free Digital Menu QR Code Generator | MatrixQR">
     <meta property="og:description" content="Upload menu images & generate instant QR codes for seamless mobile viewing.">
-    <meta property="og:image" content="https://menu.matrixqr.cc/og-image.png">
+    <meta property="og:image" content="https://menu.matrixqr.cc/og-cover.png">
 
-    
+    <!-- Twitter Card Meta Tags -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://menu.matrixqr.cc/">
-    <meta property="twitter:title" content="Free Digital Menu QR Code Generator">
+    <meta property="twitter:title" content="Free Digital Menu QR Code Generator | MatrixQR">
     <meta property="twitter:description" content="Upload menu images & generate instant QR codes for seamless mobile viewing.">
-    <meta property="twitter:image" content="https://menu.matrixqr.cc/og-image.png">
+    <meta property="twitter:image" content="https://menu.matrixqr.cc/og-cover.png">
+
+    <!-- Schema Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://menu.matrixqr.cc/#webapp",
+          "url": "https://menu.matrixqr.cc/",
+          "name": "Free Digital Menu QR Code Generator",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "All",
+          "browserRequirements": "Requires JavaScript",
+          "description": "Convert menu images into instant QR codes for contactless dining in restaurants, cafes, and bars.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "@id": "https://www.matrixqr.cc/#organization",
+            "name": "MatrixQR Studio",
+            "url": "https://www.matrixqr.cc/"
+          }
+        }
+      ]
+    }
+    </script>
     
     <link href="/dist/output.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="64x64">
     <!-- QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -36,23 +66,23 @@
     <header class="bg-white border-b border-slate-200 py-4 px-6 shadow-sm">
         <div class="max-w-5xl mx-auto flex items-center justify-between">
             <!-- Home/Main Site Link Logo -->
-            <a href="https://menu.matrixqr.cc/" class="flex items-center gap-2 group transition-all" title="Back to Main Site">
+            <a href="https://menu.matrixqr.cc/" class="flex items-center gap-2 group transition-all" title="MatrixQR Digital Menu Generator">
                 <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold group-hover:bg-indigo-700 transition-colors">
                     M
                 </div>
                 <div class="flex flex-col">
                     <span class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Digital Menu QR</span>
-                    <span class="text-[10px] text-slate-600 font-normal">by MainBrand</span>
+                    <span class="text-[10px] text-slate-500 font-normal">by MatrixQR</span>
                 </div>
             </a>
 
-            <!-- Badge -->
+            <!-- Badge & Links -->
             <div class="flex items-center gap-4">
                 <a href="https://www.matrixqr.cc/" class="text-xs text-slate-500 hover:text-indigo-600 font-medium hidden sm:inline-block">Main Site</a>
-               <span class="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full font-medium flex items-center gap-1">
-    <span class="w-1.5 h-1.5 rounded-full bg-emerald-800 animate-pulse"></span>
-    Fast & Reliable
-</span>
+                <span class="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full font-medium flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-800 animate-pulse"></span>
+                    Fast & Reliable
+                </span>
             </div>
         </div>
     </header>
@@ -60,8 +90,8 @@
     <!-- Main Content Area -->
     <main class="max-w-5xl mx-auto px-6 py-10 flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <h1 class="col-span-1 md:col-span-2 text-2xl font-extrabold text-slate-900 text-center mb-2">
-    Free Digital Menu QR Code Generator
-</h1>
+            Free Digital Menu QR Code Generator
+        </h1>
         
         <!-- Step 1: Image Selection -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
@@ -70,7 +100,6 @@
             </h2>
 
             <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50/50 relative">
-                
                 <input type="file" aria-label="Upload menu picture" id="menu-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFileSelect(event)">
                 
                 <div id="upload-placeholder" class="space-y-2">
@@ -79,7 +108,7 @@
                     <p class="text-xs text-slate-600">Supports JPG, PNG, WEBP (Max 10MB)</p>
                 </div>
 
-                <img id="image-preview" class="hidden max-h-64 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" />
+                <img id="image-preview" class="hidden max-h-64 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" alt="Menu Preview" />
             </div>
 
             <button id="btn-submit" onclick="uploadAndGenerate()" disabled class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
@@ -118,7 +147,6 @@
                 </div>
             </div>
         </div>
-
     </main>
 
     <!-- Footer Area -->
@@ -126,7 +154,7 @@
         <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
             <!-- Brand & Copyright -->
             <div class="flex items-center gap-2">
-                <span class="font-semibold text-slate-700">MainBrand</span>
+                <span class="font-semibold text-slate-700">MatrixQR Studio</span>
                 <span>© 2026 All rights reserved.</span>
             </div>
 
@@ -135,7 +163,6 @@
                 <a href="https://www.matrixqr.cc/" class="hover:text-indigo-600 transition-colors">Main Site</a>
                 <a href="https://blog.matrixqr.cc/" class="hover:text-indigo-600 transition-colors">Blog</a>
                 <a href="https://blog.matrixqr.cc/posts/privacy-policy" class="hover:text-indigo-600 transition-colors">Privacy Policy</a>
-                
             </div>
         </div>
     </footer>
@@ -143,7 +170,9 @@
     <!-- Script Section -->
     <script>
         let selectedFile = null;
-        lucide.createIcons();
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
 
         function handleFileSelect(e) {
             const file = e.target.files[0];
@@ -177,7 +206,6 @@
             qrResult.classList.add('hidden');
 
             try {
-                
                 const arrayBuffer = await selectedFile.arrayBuffer();
 
                 const response = await fetch('/api/upload', {
@@ -193,7 +221,6 @@
                 if (response.ok && resData.url) {
                     const imageUrl = resData.url;
 
-                    
                     const qrBox = document.getElementById('qrcode-box');
                     qrBox.innerHTML = '';
                     new QRCode(qrBox, {
