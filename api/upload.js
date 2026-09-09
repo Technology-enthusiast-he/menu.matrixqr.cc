@@ -1,6 +1,6 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-// 禁用 Vercel 默认的请求体解析，允许接收原始二进制流
+
 export const config = {
     api: {
         bodyParser: false,
@@ -17,7 +17,7 @@ const S3 = new S3Client({
 });
 
 export default async function handler(req, res) {
-    // 设置 CORS 头，防止跨域拦截
+    
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        // 读取二进制数据流 Buffer
+        
         const buffers = [];
         for await (const chunk of req) {
             buffers.push(chunk);
@@ -42,11 +42,11 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Empty file uploaded' });
         }
 
-        // 生成唯一文件名
+        
         const ext = req.headers['content-type']?.split('/')[1] || 'jpg';
         const filename = `menu-${Date.now()}.${ext}`;
 
-        // 上传到 Cloudflare R2
+        
         await S3.send(new PutObjectCommand({
             Bucket: process.env.R2_BUCKET_NAME,
             Key: filename,
@@ -54,7 +54,7 @@ export default async function handler(req, res) {
             ContentType: req.headers['content-type'] || 'image/jpeg',
         }));
 
-        // 拼接公网访问 URL
+        
         const domain = process.env.R2_PUBLIC_DOMAIN.replace(/\/$/, '');
         const publicUrl = `${domain}/${filename}`;
 
