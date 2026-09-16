@@ -4,10 +4,10 @@
 
 ## Core Features
 
-- **Instant Image-to-QR**: Convert JPG, PNG, or WEBP menu images (up to 10MB) into scannable QR codes instantly.
-- **Privacy & Security**: 100% client-side execution — menu image data and generated codes are never uploaded to remote servers.
-- **Free & Frictionless**: Unlimited usage with no user registration, payment, or account creation required.
-- **Mobile Friendly**: Optimized for quick scanning and seamless display on iOS and Android devices.
+- [Instant Image-to-QR](https://menu.matrixqr.cc/): Convert JPG, PNG, or WEBP menu images (up to 10MB) into scannable QR codes instantly.
+- [Privacy & Security](https://menu.matrixqr.cc/): 100% client-side execution; menu image data and generated codes never uploaded to remote servers.
+- [Free & Frictionless](https://menu.matrixqr.cc/): Unlimited usage with no user registration, payment, or account creation required.
+- [Mobile Friendly](https://menu.matrixqr.cc/): Optimized for quick scanning and seamless display on iOS and Android devices.
 
 ## Key Resources & Links
 
