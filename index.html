@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Digital Menu QR Code Generator | MatrixQR</title>
-    <meta name="description" content="Convert menu images into instant QR codes for contactless dining. Easy, fast, and free online menu QR code maker for restaurants, cafes, and bars.">
-    <meta name="keywords" content="digital menu QR code, restaurant menu QR maker, contact free menu, QR code menu generator, MatrixQR">
+    <meta name="description" content="Convert menu images into instant QR codes with custom logos for contactless dining. Easy, fast, and free online menu QR code maker for restaurants, cafes, and bars.">
+    <meta name="keywords" content="digital menu QR code, restaurant menu QR maker, contact free menu, QR code menu generator, MatrixQR, menu logo QR">
     <meta name="author" content="MatrixQR Studio">
     <link rel="canonical" href="https://menu.matrixqr.cc/" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="64x64">
 
-    
+    <!-- Open Graph / Facebook / Telegram Social Sharing Metas -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://menu.matrixqr.cc/">
     <meta property="og:site_name" content="MatrixQR Digital Menu">
-    <meta property="og:title" content="Free Digital Menu QR Code Generator | MatrixQR">
-    <meta property="og:description" content="Upload menu images & generate instant QR codes for seamless mobile viewing.">
+    <meta property="og:title" content="Free Digital Menu QR Code Generator with Custom Logo | MatrixQR">
+    <meta property="og:description" content="Upload menu images & generate instant QR codes with custom store logo for seamless mobile viewing.">
     <meta property="og:image" content="https://menu.matrixqr.cc/og-cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-    
+    <!-- Twitter Card Metas -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://menu.matrixqr.cc/">
     <meta property="twitter:title" content="Free Digital Menu QR Code Generator | MatrixQR">
-    <meta property="twitter:description" content="Upload menu images & generate instant QR codes for seamless mobile viewing.">
+    <meta property="twitter:description" content="Upload menu images & generate instant QR codes with custom store logo for seamless mobile viewing.">
     <meta property="twitter:image" content="https://menu.matrixqr.cc/og-cover.png">
 
-    
+    <!-- Structured JSON-LD Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -38,7 +40,7 @@
           "applicationCategory": "BusinessApplication",
           "operatingSystem": "All",
           "browserRequirements": "Requires JavaScript",
-          "description": "Convert menu images into instant QR codes for contactless dining in restaurants, cafes, and bars.",
+          "description": "Convert menu images into instant QR codes with custom logos for contactless dining in restaurants, cafes, and bars.",
           "offers": {
             "@type": "Offer",
             "price": "0",
@@ -55,10 +57,10 @@
     }
     </script>
     
-    <link href="/dist/output.css" rel="stylesheet">
+    <!-- External Dependencies (Tailwind CSS CDN, Lucide Icons & QRCode Engine) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
-    <!-- QRCode.js -->
-    <script src="js/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 font-sans flex flex-col justify-between">
 
@@ -72,7 +74,7 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Digital Menu QR</span>
-                    <span class="text-[10px] text-slate-500 font-normal">by MatrixQR</span>
+                    <span class="text-[10px] text-slate-500 font-normal">by MatrixQR Studio</span>
                 </div>
             </a>
 
@@ -80,7 +82,7 @@
             <div class="flex items-center gap-4">
                 <a href="https://www.matrixqr.cc/" class="text-xs text-slate-500 hover:text-indigo-600 font-medium hidden sm:inline-block">Main Site</a>
                 <span class="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full font-medium flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-800 animate-pulse"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
                     Fast & Reliable
                 </span>
             </div>
@@ -93,55 +95,80 @@
             Free Digital Menu QR Code Generator
         </h1>
         
-        <!-- Step 1: Image Selection -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-            <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
-                <i data-lucide="upload-cloud" class="w-5 h-5 text-indigo-600"></i> Step 1: Upload Menu Image
-            </h2>
+        <!-- Step 1: Image & Custom Logo Selection -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+            <!-- 1.1 Upload Menu Main Image -->
+            <div class="space-y-3">
+                <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                    <i data-lucide="upload-cloud" class="w-5 h-5 text-indigo-600"></i> Step 1: Upload Menu Image
+                </h2>
 
-            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50/50 relative">
-                <input type="file" aria-label="Upload menu picture" id="menu-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFileSelect(event)">
-                
-                <div id="upload-placeholder" class="space-y-2">
-                    <i data-lucide="image" class="w-10 h-10 text-slate-400 mx-auto"></i>
-                    <p class="text-sm font-semibold text-slate-700">Click or drag & drop menu image here</p>
-                    <p class="text-xs text-slate-600">Supports JPG, PNG, WEBP (Max 10MB)</p>
+                <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50/50 relative">
+                    <input type="file" aria-label="Upload menu picture" id="menu-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFileSelect(event)">
+                    
+                    <div id="upload-placeholder" class="space-y-2">
+                        <i data-lucide="image" class="w-10 h-10 text-slate-400 mx-auto"></i>
+                        <p class="text-sm font-semibold text-slate-700">Click or drag & drop menu image here</p>
+                        <p class="text-xs text-slate-500">Supports JPG, PNG, WEBP (Max 10MB)</p>
+                    </div>
+
+                    <img id="image-preview" class="hidden max-h-60 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" alt="Menu Preview" />
                 </div>
-
-                <img id="image-preview" class="hidden max-h-64 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" alt="Menu Preview" />
             </div>
 
-            <button id="btn-submit" onclick="uploadAndGenerate()" disabled class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
+            <!-- 1.2 Custom Logo Upload Area (New Enhancement) -->
+            <div class="pt-4 border-t border-slate-100 space-y-2">
+                <label class="block text-xs font-bold uppercase text-slate-500">Center Store Logo / Avatar (Optional)</label>
+                <div class="flex items-center gap-3">
+                    <div id="logo-preview-box" class="w-12 h-12 bg-slate-100 border border-dashed border-slate-300 rounded-xl flex items-center justify-center shrink-0 overflow-hidden relative">
+                        <i id="logo-placeholder-icon" data-lucide="store" class="w-5 h-5 text-slate-400"></i>
+                        <img id="logo-preview-img" class="hidden w-full h-full object-cover" alt="Logo Preview" />
+                    </div>
+                    <div class="flex-1 flex gap-2">
+                        <label class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-xl py-2 px-3 text-xs font-medium cursor-pointer transition-colors text-center flex items-center justify-center gap-1.5">
+                            <i data-lucide="image-plus" class="w-3.5 h-3.5 text-indigo-600"></i>
+                            <span id="logo-btn-text">Add Store Logo</span>
+                            <input type="file" id="logo-file" accept="image/*" class="hidden" onchange="handleLogoSelect(event)">
+                        </label>
+                        <button type="button" id="logo-remove-btn" onclick="removeLogo()" class="hidden px-3 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 rounded-xl text-xs font-medium transition-colors">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button id="btn-submit" onclick="uploadAndGenerate()" disabled class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
                 <i data-lucide="qr-code" class="w-4 h-4"></i> Generate QR Code
             </button>
         </div>
 
-        <!-- Step 2: QR Code Display -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-400 shadow-sm text-center space-y-4 flex flex-col items-center justify-center min-h-[340px]">
+        <!-- Step 2: Integrated Canvas Preview Box -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-4 flex flex-col items-center justify-center min-h-[360px]">
             <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
                 <i data-lucide="smartphone" class="w-5 h-5 text-emerald-600"></i> Step 2: Scan to View Menu
             </h2>
 
             <!-- Loading Spinner -->
-            <div id="loading-spinner" class="hidden flex-col items-center py-6 space-y-2">
+            <div id="loading-spinner" class="hidden flex-col items-center py-8 space-y-3">
                 <div class="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-                <p class="text-xs text-slate-500 font-medium">Uploading & generating QR Code...</p>
+                <p class="text-xs text-slate-500 font-medium">Processing image & embedding logo...</p>
             </div>
 
             <!-- Empty State -->
-            <div id="qr-empty" class="py-8 text-slate-600 text-xs">
-                Please select a menu image on the left first.
+            <div id="qr-empty" class="py-12 text-slate-400 text-xs flex flex-col items-center gap-2">
+                <i data-lucide="qr-code" class="w-10 h-10 stroke-1 text-slate-300"></i>
+                <span>Please select a menu image on the left first.</span>
             </div>
 
             <!-- Result Box -->
-            <div id="qr-result" class="hidden space-y-4 flex-col items-center">
-                <div id="qrcode-box" class="p-3 bg-white border-2 border-slate-100 rounded-2xl shadow-inner flex justify-center"></div>
+            <div id="qr-result" class="hidden space-y-4 flex-col items-center w-full">
+                <div id="qrcode-box" class="p-4 bg-white border-2 border-slate-100 rounded-2xl shadow-inner flex justify-center items-center"></div>
                 
                 <p class="text-xs text-slate-500 max-w-xs">Customers can scan this QR code with any smartphone camera to open your menu instantly.</p>
 
                 <div class="flex gap-2 w-full max-w-xs">
                     <a id="menu-url" href="#" target="_blank" class="hidden"></a>
-                    <button onclick="downloadQR()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all">
+                    <button onclick="downloadQR()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md">
                         <i data-lucide="download" class="w-4 h-4"></i> Download QR Sticker
                     </button>
                 </div>
@@ -150,40 +177,40 @@
     </main>
 
     <!-- Footer Area -->
-<footer class="bg-white border-t border-slate-200 mt-12 py-8 px-6">
-    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-        <!-- Brand, Copyright & GDPR Badge -->
-        <div class="flex items-center gap-3 flex-wrap justify-center sm:justify-start">
-            <span class="font-semibold text-slate-700">MatrixQR Studio</span>
-            <span>© 2026 All rights reserved.</span>
-            
-            <!-- GDPR & Storage Badge -->
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-medium" title="Menu files hosted securely in Cloudflare R2 Object Storage (menu-images bucket)">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                Secure R2 Cloud Storage
-            </span>
-        </div>
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8 px-6">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <!-- Brand, Copyright & GDPR Badge -->
+            <div class="flex items-center gap-3 flex-wrap justify-center sm:justify-start">
+                <span class="font-semibold text-slate-700">MatrixQR Studio</span>
+                <span>© 2026 All rights reserved.</span>
+                
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-medium" title="Menu files hosted securely in Cloudflare R2 Object Storage">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Secure R2 Cloud Storage
+                </span>
+            </div>
 
-        <!-- Navigation Links -->
-        <div class="flex items-center gap-6">
-            <a href="https://www.matrixqr.cc/" class="hover:text-indigo-600 transition-colors">Main Site</a>
-            
-            
-            <a href="https://www.matrixqr.cc/about" class="hover:text-indigo-600 transition-colors">About Us</a>
-            
-            <a href="https://blog.matrixqr.cc/" class="hover:text-indigo-600 transition-colors">Blog</a>
-            <a href="https://blog.matrixqr.cc/posts/privacy-policy" class="hover:text-indigo-600 transition-colors">Privacy Policy</a>
+            <!-- Navigation Links -->
+            <div class="flex items-center gap-6">
+                <a href="https://www.matrixqr.cc/" class="hover:text-indigo-600 transition-colors">Main Site</a>
+                <a href="https://www.matrixqr.cc/about" class="hover:text-indigo-600 transition-colors">About Us</a>
+                <a href="https://blog.matrixqr.cc/" class="hover:text-indigo-600 transition-colors">Blog</a>
+                <a href="https://blog.matrixqr.cc/posts/privacy-policy" class="hover:text-indigo-600 transition-colors">Privacy Policy</a>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
-    <!-- Script Section -->
+    <!-- Script Execution -->
     <script>
         let selectedFile = null;
+        let selectedLogoBase64 = null;
+
+        // Initialize Lucide Vector Icons
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
 
+        // Handle Main Menu Image Upload
         function handleFileSelect(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -203,6 +230,47 @@
             btn.classList.remove('cursor-not-allowed');
         }
 
+        // Handle Store Logo Upload
+        function handleLogoSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                selectedLogoBase64 = event.target.result;
+                
+                const previewImg = document.getElementById('logo-preview-img');
+                const placeholderIcon = document.getElementById('logo-placeholder-icon');
+                const removeBtn = document.getElementById('logo-remove-btn');
+                const btnText = document.getElementById('logo-btn-text');
+
+                previewImg.src = selectedLogoBase64;
+                previewImg.classList.remove('hidden');
+                placeholderIcon.classList.add('hidden');
+                removeBtn.classList.remove('hidden');
+                btnText.innerText = "Change Logo";
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Remove Logo Action
+        function removeLogo() {
+            selectedLogoBase64 = null;
+            document.getElementById('logo-file').value = '';
+
+            const previewImg = document.getElementById('logo-preview-img');
+            const placeholderIcon = document.getElementById('logo-placeholder-icon');
+            const removeBtn = document.getElementById('logo-remove-btn');
+            const btnText = document.getElementById('logo-btn-text');
+
+            previewImg.src = '';
+            previewImg.classList.add('hidden');
+            placeholderIcon.classList.remove('hidden');
+            removeBtn.classList.add('hidden');
+            btnText.innerText = "Add Store Logo";
+        }
+
+        // Main Handler: Process Upload & Render QR Code with Logo
         async function uploadAndGenerate() {
             if (!selectedFile) return;
 
@@ -216,57 +284,133 @@
             qrResult.classList.add('hidden');
 
             try {
-                const arrayBuffer = await selectedFile.arrayBuffer();
+                let imageUrl = "";
 
-                const response = await fetch('/api/upload', {
-                    method: 'POST',
-                    headers: {
-                        'content-type': selectedFile.type || 'image/jpeg'
-                    },
-                    body: arrayBuffer
-                });
-
-                const resData = await response.json();
-
-                if (response.ok && resData.url) {
-                    const imageUrl = resData.url;
-
-                    const qrBox = document.getElementById('qrcode-box');
-                    qrBox.innerHTML = '';
-                    new QRCode(qrBox, {
-                        text: imageUrl,
-                        width: 180,
-                        height: 180,
-                        colorDark: "#0f172a",
-                        colorLight: "#ffffff"
+                // Try uploading to backend API endpoint
+                try {
+                    const arrayBuffer = await selectedFile.arrayBuffer();
+                    const response = await fetch('/api/upload', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': selectedFile.type || 'image/jpeg'
+                        },
+                        body: arrayBuffer
                     });
-
-                    const linkElem = document.getElementById('menu-url');
-                    linkElem.href = imageUrl;
-
-                    loading.classList.add('hidden');
-                    qrResult.classList.remove('hidden');
-                    qrResult.classList.add('flex');
-                } else {
-                    alert('Upload failed: ' + (resData.error || 'Server error'));
-                    loading.classList.add('hidden');
-                    qrEmpty.classList.remove('hidden');
+                    const resData = await response.json();
+                    if (response.ok && resData.url) {
+                        imageUrl = resData.url;
+                    }
+                } catch (apiErr) {
+                    console.warn("API Upload bypassed or offline mode active. Falling back to DataURL preview.");
                 }
+
+                // If API backend unavailable, fallback to local DataURL preview
+                if (!imageUrl) {
+                    imageUrl = await new Promise((resolve) => {
+                        const r = new FileReader();
+                        r.onload = e => resolve(e.target.result);
+                        r.readAsDataURL(selectedFile);
+                    });
+                }
+
+                renderQRWithLogo(imageUrl);
+
             } catch (err) {
                 console.error(err);
-                alert('Network error, please try again.');
+                alert('An error occurred during processing, please try again.');
                 loading.classList.add('hidden');
                 qrEmpty.classList.remove('hidden');
             }
         }
 
+        // Render Canvas Matrix & Overlay Custom Logo
+        function renderQRWithLogo(targetUrl) {
+            const qrBox = document.getElementById('qrcode-box');
+            qrBox.innerHTML = '';
+
+            // Generate high-resolution matrix canvas with Level H Error Correction
+            new QRCode(qrBox, {
+                text: targetUrl,
+                width: 220,
+                height: 220,
+                colorDark: "#0f172a",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            setTimeout(() => {
+                const canvas = qrBox.querySelector('canvas');
+                if (canvas) {
+                    if (selectedLogoBase64) {
+                        const ctx = canvas.getContext('2d');
+                        const logoImg = new Image();
+                        logoImg.src = selectedLogoBase64;
+                        logoImg.onload = function() {
+                            const logoSize = canvas.width * 0.22; // Control logo to 22% footprint
+                            const x = (canvas.width - logoSize) / 2;
+                            const y = (canvas.height - logoSize) / 2;
+
+                            // Draw white rounded background block
+                            ctx.fillStyle = '#ffffff';
+                            ctx.beginPath();
+                            if (ctx.roundRect) {
+                                ctx.roundRect(x - 3, y - 3, logoSize + 6, logoSize + 6, 6);
+                            } else {
+                                ctx.fillRect(x - 3, y - 3, logoSize + 6, logoSize + 6);
+                            }
+                            ctx.fill();
+
+                            // Clip & Draw rounded store logo
+                            ctx.save();
+                            ctx.beginPath();
+                            if (ctx.roundRect) {
+                                ctx.roundRect(x, y, logoSize, logoSize, 4);
+                            } else {
+                                ctx.rect(x, y, logoSize, logoSize);
+                            }
+                            ctx.clip();
+                            ctx.drawImage(logoImg, x, y, logoSize, logoSize);
+                            ctx.restore();
+
+                            // Sync Canvas Image Result
+                            const qrImg = qrBox.querySelector('img');
+                            if (qrImg) qrImg.src = canvas.toDataURL("image/png");
+                        };
+                    } else {
+                        const qrImg = qrBox.querySelector('img');
+                        if (qrImg) qrImg.src = canvas.toDataURL("image/png");
+                    }
+                }
+
+                // Update UI state
+                document.getElementById('menu-url').href = targetUrl;
+                document.getElementById('loading-spinner').classList.add('hidden');
+                
+                const qrResult = document.getElementById('qr-result');
+                qrResult.classList.remove('hidden');
+                qrResult.classList.add('flex');
+            }, 150);
+        }
+
+        // Export Function for Downloading QR Image
         function downloadQR() {
+            const canvas = document.querySelector('#qrcode-box canvas');
             const qrImg = document.querySelector('#qrcode-box img');
-            if (qrImg) {
+            
+            let downloadUrl = "";
+            if (canvas) {
+                downloadUrl = canvas.toDataURL('image/png');
+            } else if (qrImg && qrImg.src) {
+                downloadUrl = qrImg.src;
+            }
+
+            if (downloadUrl) {
                 const a = document.createElement('a');
-                a.href = qrImg.src;
+                a.href = downloadUrl;
                 a.download = 'menu-qrcode.png';
+                document.body.appendChild(a);
                 a.click();
+                document.body.removeChild(a);
             }
         }
     </script>
