@@ -1,0 +1,22 @@
+name: Build Tailwind CSS
+on:
+  push:
+    branches: [ main ] 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install -D tailwindcss
+      - run: npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify
+      - name: Commit compiled CSS
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./dist/output.css
+          git commit -m "Auto-compile Tailwind CSS" || exit 0
+          git push
