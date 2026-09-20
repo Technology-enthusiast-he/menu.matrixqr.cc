@@ -10,7 +10,7 @@
     <link rel="canonical" href="https://menu.matrixqr.cc/" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="64x64">
 
-    
+    <!-- Open Graph Metas -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://menu.matrixqr.cc/">
     <meta property="og:site_name" content="MatrixQR Digital Menu">
@@ -27,7 +27,7 @@
     <meta property="twitter:description" content="Upload menu images & generate instant QR codes with custom store logo for seamless mobile viewing.">
     <meta property="twitter:image" content="https://menu.matrixqr.cc/og-cover.png">
 
-    <!-- Structured JSON-LD Schema -->
+    <!-- Structured JSON-LD Schema (SoftwareApplication & FAQPage) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -52,6 +52,44 @@
             "name": "MatrixQR",
             "url": "https://www.matrixqr.cc/"
           }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://menu.matrixqr.cc/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is this digital menu QR code generator free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, it is 100% free with no hidden fees or subscription required. You can generate unlimited QR codes for your restaurant or cafe menus."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does the generated menu QR code expire?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No, the generated QR codes do not expire. Once generated, your customers can scan and view your menu anytime."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I add my restaurant logo to the QR code?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! You can upload your store logo in Step 1. The generator automatically embeds it seamlessly into the center of your QR code with high scan reliability."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What menu image formats are supported?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We support JPG, PNG, and WEBP image formats up to 10MB per file."
+              }
+            }
+          ]
         }
       ]
     }
@@ -90,90 +128,143 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="max-w-5xl mx-auto px-6 py-10 flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        <h1 class="col-span-1 md:col-span-2 text-2xl font-extrabold text-slate-900 text-center mb-2">
+    <main class="max-w-5xl mx-auto px-6 py-10 flex-1 w-full flex flex-col items-center">
+        <h1 class="text-2xl font-extrabold text-slate-900 text-center mb-8">
             Free Digital Menu QR Code Generator
         </h1>
         
-        <!-- Step 1: Image & Custom Logo Selection -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-            <!-- 1.1 Upload Menu Main Image -->
-            <div class="space-y-3">
-                <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
-                    <i data-lucide="upload-cloud" class="w-5 h-5 text-indigo-600"></i> Step 1: Upload Menu Image
-                </h2>
+        <!-- Generator Steps Container -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start w-full">
+            <!-- Step 1: Image & Custom Logo Selection -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <!-- 1.1 Upload Menu Main Image -->
+                <div class="space-y-3">
+                    <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                        <i data-lucide="upload-cloud" class="w-5 h-5 text-indigo-600"></i> Step 1: Upload Menu Image
+                    </h2>
 
-                <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50/50 relative">
-                    <input type="file" aria-label="Upload menu picture" id="menu-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFileSelect(event)">
-                    
-                    <div id="upload-placeholder" class="space-y-2">
-                        <i data-lucide="image" class="w-10 h-10 text-slate-400 mx-auto"></i>
-                        <p class="text-sm font-semibold text-slate-700">Click or drag & drop menu image here</p>
-                        <p class="text-xs text-slate-500">Supports JPG, PNG, WEBP (Max 10MB)</p>
+                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50/50 relative">
+                        <input type="file" aria-label="Upload menu picture" id="menu-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFileSelect(event)">
+                        
+                        <div id="upload-placeholder" class="space-y-2">
+                            <i data-lucide="image" class="w-10 h-10 text-slate-400 mx-auto"></i>
+                            <p class="text-sm font-semibold text-slate-700">Click or drag & drop menu image here</p>
+                            <p class="text-xs text-slate-500">Supports JPG, PNG, WEBP (Max 10MB)</p>
+                        </div>
+
+                        <img id="image-preview" class="hidden max-h-60 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" alt="Menu Preview" />
                     </div>
-
-                    <img id="image-preview" class="hidden max-h-60 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" alt="Menu Preview" />
                 </div>
+
+                <!-- 1.2 Custom Logo Upload Area -->
+                <div class="pt-4 border-t border-slate-100 space-y-2">
+                    <label class="block text-xs font-bold uppercase text-slate-500">Center Store Logo / Avatar (Optional)</label>
+                    <div class="flex items-center gap-3">
+                        <div id="logo-preview-box" class="w-12 h-12 bg-slate-100 border border-dashed border-slate-300 rounded-xl flex items-center justify-center shrink-0 overflow-hidden relative">
+                            <i id="logo-placeholder-icon" data-lucide="store" class="w-5 h-5 text-slate-400"></i>
+                            <img id="logo-preview-img" class="hidden w-full h-full object-cover" alt="Logo Preview" />
+                        </div>
+                        <div class="flex-1 flex gap-2">
+                            <label class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-xl py-2 px-3 text-xs font-medium cursor-pointer transition-colors text-center flex items-center justify-center gap-1.5">
+                                <i data-lucide="image-plus" class="w-3.5 h-3.5 text-indigo-600"></i>
+                                <span id="logo-btn-text">Add Store Logo</span>
+                                <input type="file" id="logo-file" accept="image/*" class="hidden" onchange="handleLogoSelect(event)">
+                            </label>
+                            <button type="button" id="logo-remove-btn" onclick="removeLogo()" class="hidden px-3 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 rounded-xl text-xs font-medium transition-colors">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-submit" onclick="uploadAndGenerate()" disabled class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
+                    <i data-lucide="qr-code" class="w-4 h-4"></i> Generate QR Code
+                </button>
             </div>
 
-            <!-- 1.2 Custom Logo Upload Area (New Enhancement) -->
-            <div class="pt-4 border-t border-slate-100 space-y-2">
-                <label class="block text-xs font-bold uppercase text-slate-500">Center Store Logo / Avatar (Optional)</label>
-                <div class="flex items-center gap-3">
-                    <div id="logo-preview-box" class="w-12 h-12 bg-slate-100 border border-dashed border-slate-300 rounded-xl flex items-center justify-center shrink-0 overflow-hidden relative">
-                        <i id="logo-placeholder-icon" data-lucide="store" class="w-5 h-5 text-slate-400"></i>
-                        <img id="logo-preview-img" class="hidden w-full h-full object-cover" alt="Logo Preview" />
-                    </div>
-                    <div class="flex-1 flex gap-2">
-                        <label class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-xl py-2 px-3 text-xs font-medium cursor-pointer transition-colors text-center flex items-center justify-center gap-1.5">
-                            <i data-lucide="image-plus" class="w-3.5 h-3.5 text-indigo-600"></i>
-                            <span id="logo-btn-text">Add Store Logo</span>
-                            <input type="file" id="logo-file" accept="image/*" class="hidden" onchange="handleLogoSelect(event)">
-                        </label>
-                        <button type="button" id="logo-remove-btn" onclick="removeLogo()" class="hidden px-3 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 rounded-xl text-xs font-medium transition-colors">
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <!-- Step 2: Integrated Canvas Preview Box -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-4 flex flex-col items-center justify-center min-h-[360px]">
+                <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                    <i data-lucide="smartphone" class="w-5 h-5 text-emerald-600"></i> Step 2: Scan to View Menu
+                </h2>
+
+                <!-- Loading Spinner -->
+                <div id="loading-spinner" class="hidden flex-col items-center py-8 space-y-3">
+                    <div class="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                    <p class="text-xs text-slate-500 font-medium">Processing image & embedding logo...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="qr-empty" class="py-12 text-slate-700 text-xs flex flex-col items-center gap-2">
+                    <i data-lucide="qr-code" class="w-10 h-10 stroke-1 text-slate-300"></i>
+                    <span>Please select a menu image on the left first.</span>
+                </div>
+
+                <!-- Result Box -->
+                <div id="qr-result" class="hidden space-y-4 flex-col items-center w-full">
+                    <div id="qrcode-box" class="p-4 bg-white border-2 border-slate-100 rounded-2xl shadow-inner flex justify-center items-center"></div>
+                    
+                    <p class="text-xs text-slate-500 max-w-xs">Customers can scan this QR code with any smartphone camera to open your menu instantly.</p>
+
+                    <div class="flex gap-2 w-full max-w-xs">
+                        <a id="menu-url" href="#" target="_blank" class="hidden"></a>
+                        <button onclick="downloadQR()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md">
+                            <i data-lucide="download" class="w-4 h-4"></i> Download QR Sticker
                         </button>
                     </div>
                 </div>
             </div>
-
-            <button id="btn-submit" onclick="uploadAndGenerate()" disabled class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-not-allowed">
-                <i data-lucide="qr-code" class="w-4 h-4"></i> Generate QR Code
-            </button>
         </div>
 
-        <!-- Step 2: Integrated Canvas Preview Box -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-4 flex flex-col items-center justify-center min-h-[360px]">
-            <h2 class="font-bold text-slate-900 text-base flex items-center gap-2">
-                <i data-lucide="smartphone" class="w-5 h-5 text-emerald-600"></i> Step 2: Scan to View Menu
-            </h2>
-
-            <!-- Loading Spinner -->
-            <div id="loading-spinner" class="hidden flex-col items-center py-8 space-y-3">
-                <div class="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-                <p class="text-xs text-slate-500 font-medium">Processing image & embedding logo...</p>
+        <!-- FAQ Section -->
+        <section class="w-full max-w-5xl border-t border-slate-200 mt-16 pt-12">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-2xl font-bold text-slate-900">Frequently Asked Questions</h2>
+                <p class="text-sm text-slate-500 mt-2">Everything you need to know about our digital menu QR generator.</p>
             </div>
 
-            <!-- Empty State -->
-            <div id="qr-empty" class="py-12 text-slate-700 text-xs flex flex-col items-center gap-2">
-                <i data-lucide="qr-code" class="w-10 h-10 stroke-1 text-slate-300"></i>
-                <span>Please select a menu image on the left first.</span>
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-left">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                        Is this digital menu QR code generator free?
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Yes, it is 100% free with no hidden fees or subscription required. You can generate unlimited QR codes for your restaurant or cafe menus.
+                    </p>
+                </div>
 
-            <!-- Result Box -->
-            <div id="qr-result" class="hidden space-y-4 flex-col items-center w-full">
-                <div id="qrcode-box" class="p-4 bg-white border-2 border-slate-100 rounded-2xl shadow-inner flex justify-center items-center"></div>
-                
-                <p class="text-xs text-slate-500 max-w-xs">Customers can scan this QR code with any smartphone camera to open your menu instantly.</p>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                        Does the generated menu QR code expire?
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        No, the generated QR codes do not expire. Once generated, your customers can scan and view your menu anytime.
+                    </p>
+                </div>
 
-                <div class="flex gap-2 w-full max-w-xs">
-                    <a id="menu-url" href="#" target="_blank" class="hidden"></a>
-                    <button onclick="downloadQR()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md">
-                        <i data-lucide="download" class="w-4 h-4"></i> Download QR Sticker
-                    </button>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                        Can I add my restaurant logo to the QR code?
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Yes! You can upload your store logo in Step 1. The generator automatically embeds it seamlessly into the center of your QR code with high scan reliability.
+                    </p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                        What menu image formats are supported?
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        We support JPG, PNG, and WEBP image formats up to 10MB per file.
+                    </p>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
     <!-- Footer Area -->
