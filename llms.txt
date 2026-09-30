@@ -10,7 +10,7 @@
 - [Free & Frictionless](https://menu.matrixqr.cc/): Unlimited usage with no user registration, payment, or account creation required.
 
 ## Clarification & Scope
-- Note: This tool converts existing menu images/PDFs into QR access links. It is NOT an interactive online menu builder or text editor.
+- [Note](https://menu.matrixqr.cc/): This tool converts existing menu images/PDFs into QR access links. It is NOT an interactive online menu builder or text editor.
 
 ## Key Resources & Links
 
