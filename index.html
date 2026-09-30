@@ -29,71 +29,53 @@
 
     <!-- Structured JSON-LD Schema -->
     <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
     {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "SoftwareApplication",
-          "@id": "https://menu.matrixqr.cc/#webapp",
-          "url": "https://menu.matrixqr.cc/",
-          "name": "Free Digital Menu QR Code Generator",
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "Any (Browser-based)",
-          "browserRequirements": "Requires JavaScript",
-          "description": "Convert menu images into instant QR codes with custom logos for contactless dining in restaurants, cafes, and bars.",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          },
-          "publisher": {
-            "@type": "Organization",
-            "@id": "https://www.matrixqr.cc/#organization",
-            "name": "MatrixQR",
-            "url": "https://www.matrixqr.cc/"
-          }
-        },
-        {
-          "@type": "FAQPage",
-          "@id": "https://menu.matrixqr.cc/#faq",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "Is this digital menu QR code generator free?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes, it is 100% free with no hidden fees or subscription required. You can generate unlimited QR codes for your restaurant or cafe menus."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Does the generated menu QR code expire?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "No, the generated QR codes do not expire. Once generated, your customers can scan and view your menu anytime."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Can I add my restaurant logo to the QR code?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes! You can upload your store logo in Step 1. The generator automatically embeds it seamlessly into the center of your QR code with high scan reliability."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "What menu image formats are supported?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "We support JPG, PNG, and WEBP image formats up to 10MB per file."
-              }
-            }
-          ]
-        }
-      ]
+      "@type": "Question",
+      "name": "Is this menu QR code generator free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, it is 100% free with no hidden fees or subscription required. You can generate unlimited QR codes for your restaurant or cafe menus."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the generated menu QR code expire?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, the generated QR codes do not expire. Once generated, your customers can scan and view your menu anytime."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I edit text or prices on my menu here?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This tool converts existing menu images (JPG, PNG, WEBP) into QR codes. It is not an online menu editor. To update your menu, simply upload a new menu image and generate a new QR code."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What menu image formats are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We support JPG, PNG, and WEBP image formats up to 10MB per file. All images are hosted securely on fast cloud storage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I add my restaurant logo to the QR code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! You can upload your store logo in the generator options. The logo processing happens entirely client-side in your browser for fast and reliable rendering."
+      }
     }
-    </script>
+  ]
+}
+</script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="/dist/output.css">
