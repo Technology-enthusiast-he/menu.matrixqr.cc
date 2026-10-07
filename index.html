@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 优化 Title：主词前置、品牌结尾，与 H1/Meta 保持强相关 -->
     <title>Menu Image to QR Code Generator with Custom Logo | MatrixQR</title>
     <meta name="description" content="Free menu image to QR code generator with custom logo. Easily convert restaurant menu images into fast, high-quality QR codes for contactless dining.">
-    <meta name="keywords" content="digital menu QR code, restaurant menu QR maker, contact free menu, QR code menu generator, MatrixQR, menu logo QR">
+    <meta name="keywords" content="Menu Image to QR Code Generator, digital menu QR code, restaurant menu QR maker, contact free menu, QR code menu generator, MatrixQR, menu logo QR">
     <meta name="author" content="MatrixQR Studio">
     <link rel="canonical" href="https://menu.matrixqr.cc/" />
     <link rel="icon" type="image/png" href="/favicon-64x64.png" sizes="64x64">
 
-    <!-- Open Graph -->
+    <!-- Open Graph Metas -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://menu.matrixqr.cc/">
     <meta property="og:site_name" content="MatrixQR Digital Menu">
-    <meta property="og:title" content="Free Digital Menu QR Code Generator with Custom Logo | MatrixQR">
-    <meta property="og:description" content="Upload menu images & generate instant QR codes with custom store logo for seamless mobile viewing.">
+    <meta property="og:title" content="Menu Image to QR Code Generator with Custom Logo | MatrixQR">
+    <meta property="og:description" content="Upload menu images & generate instant QR codes with custom store logo for seamless contactless mobile viewing.">
     <meta property="og:image" content="https://menu.matrixqr.cc/og-cover.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -23,64 +24,79 @@
     <!-- Twitter Card Metas -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://menu.matrixqr.cc/">
-    <meta property="twitter:title" content="Free Digital Menu QR Code Generator | MatrixQR">
-    <meta property="twitter:description" content="Upload menu images & generate instant QR codes with custom store logo for seamless mobile viewing.">
+    <meta property="twitter:title" content="Menu Image to QR Code Generator with Custom Logo | MatrixQR">
+    <meta property="twitter:description" content="Upload menu images & generate instant QR codes with custom store logo for seamless contactless mobile viewing.">
     <meta property="twitter:image" content="https://menu.matrixqr.cc/og-cover.png">
 
-    <!-- Structured JSON-LD Schema -->
+    <!-- Structured JSON-LD Schema (FAQ & WebApplication) -->
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
     {
-      "@type": "Question",
-      "name": "Is this menu QR code generator free?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, it is 100% free with no hidden fees or subscription required. You can generate unlimited QR codes for your restaurant or cafe menus."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does the generated menu QR code expire?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, the generated QR codes do not expire. Once generated, your customers can scan and view your menu anytime."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I edit text or prices on my menu here?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This tool converts existing menu images (JPG, PNG, WEBP) into QR codes. It is not an online menu editor. To update your menu, simply upload a new menu image and generate a new QR code."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What menu image formats are supported?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "We support JPG, PNG, and WEBP image formats up to 10MB per file. All images are hosted securely on fast cloud storage."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I add my restaurant logo to the QR code?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes! You can upload your store logo in the generator options. The logo processing happens entirely client-side in your browser for fast and reliable rendering."
-      }
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Menu Image to QR Code Generator",
+          "url": "https://menu.matrixqr.cc/",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is this menu QR code generator free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, it is 100% free with no hidden fees, dynamic scan limits, or required subscriptions. You can create unlimited QR codes for your restaurant or cafe."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does the generated menu QR code expire?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No, your generated QR code will never expire. Customers can scan and view your digital menu image anytime without link degradation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I edit menu text or prices inside this generator?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "This tool directly converts static menu images (JPG, PNG, WEBP) into QR codes. It is not an interactive text menu builder. To change prices, simply re-upload your updated menu image."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What image formats and file sizes are supported?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We support JPG, PNG, and WEBP images up to 10MB. Images are automatically optimized and securely cached on global Cloudflare R2 storage for instant loading."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I embed my restaurant logo inside the QR code?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! You can upload your store logo or avatar, which is rendered directly into the center of the QR code using client-side HTML5 Canvas technology."
+              }
+            }
+          ]
+        }
+      ]
     }
-  ]
-}
-</script>
+    </script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="/dist/output.css">
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@4.5.0/dist/easy.qrcode.min.js"></script>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 font-sans flex flex-col justify-between">
@@ -110,13 +126,14 @@
 
     <!-- Main Content Area -->
     <main class="max-w-5xl mx-auto px-6 py-10 flex-1 w-full flex flex-col items-center">
-        <h1 class="text-2xl font-extrabold text-slate-900 text-center mb-8">
+        <!-- H1 契合标题与意图 -->
+        <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 text-center mb-8">
             Free Menu Image to QR Code Generator with Custom Logo
         </h1>
         
         <!-- Generator Steps Container -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start w-full">
-            <!-- Step 1: Image, Custom Logo & Color Options -->
+            <!-- Step 1: Upload, Custom Logo & Color Options -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
                 <!-- 1.1 Upload Menu Main Image -->
                 <div class="space-y-3">
@@ -158,7 +175,7 @@
                     </div>
                 </div>
 
-                
+                <!-- 1.3 Color Options Panel -->
                 <div class="pt-4 border-t border-slate-100 space-y-4">
                     <div class="flex items-center justify-between">
                         <label class="font-bold text-slate-900 text-xs flex items-center gap-1.5 uppercase tracking-wider">
@@ -171,7 +188,6 @@
                     </div>
 
                     <div id="color-picker-panel" class="hidden space-y-4 pt-1 transition-all">
-                        
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-[11px] text-slate-500 mb-1">QR Code Color</label>
@@ -203,7 +219,6 @@
                             </div>
                         </div>
 
-                        
                         <div class="space-y-1.5">
                             <span class="block text-[11px] text-slate-500">Color Presets:</span>
                             <div class="flex items-center gap-2">
@@ -255,70 +270,138 @@
             </div>
         </div>
 
+        <!-- 补充：完整 4 步操作引导区（针对用户如何打印/贴桌说明） -->
+        <section class="w-full max-w-5xl border-t border-slate-200 mt-16 pt-12">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-2xl font-bold text-slate-900">How to Convert Your Menu Image to a QR Code in 4 Steps</h2>
+                <p class="text-sm text-slate-500 mt-2">Publish your contactless digital menu for dining guests in less than 60 seconds.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">1</div>
+                    <h3 class="font-bold text-slate-900 text-sm">Upload Menu Image</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Select your restaurant menu picture or flyer in JPG, PNG, or WEBP format up to 10MB.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">2</div>
+                    <h3 class="font-bold text-slate-900 text-sm">Embed Store Logo</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Add your restaurant brand logo or icon to center-stage your QR code with automatic Canvas sanitization.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">3</div>
+                    <h3 class="font-bold text-slate-900 text-sm">Customize Brand Colors</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Match the QR matrix code colors and background frames to your restaurant's interior aesthetic.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">4</div>
+                    <h3 class="font-bold text-slate-900 text-sm">Download & Print</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Download your high-resolution QR image sticker and place it on dining tables or ordering counters.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 补充：核心价值优势区（针对餐饮场景 E-E-A-T & LSI 语义强化） -->
+        <section class="w-full max-w-5xl border-t border-slate-200 mt-12 pt-12">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-2xl font-bold text-slate-900">Why Restaurants & Cafes Choose Image-Based Menu QR Codes</h2>
+                <p class="text-sm text-slate-500 mt-2">Delight your dining customers with instant, hassle-free menu access.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                    <i data-lucide="zap" class="w-6 h-6 text-indigo-600"></i>
+                    <h3 class="font-bold text-slate-900 text-base">Instant Mobile Viewing</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        No App downloads or dynamic redirects required. Customers scan with their native smartphone camera to instantly open high-resolution menu images.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-indigo-600"></i>
+                    <h3 class="font-bold text-slate-900 text-base">Client-Side Image Sanitization</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Uploaded image files are re-rendered and stripped of unsafe metadata using in-browser HTML5 Canvas execution before hosting on Cloudflare R2 storage.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                    <i data-lucide="dollar-sign" class="w-6 h-6 text-indigo-600"></i>
+                    <h3 class="font-bold text-slate-900 text-base">Zero Reprinting Costs</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Easily update seasonal dish specials or beverage prices by re-generating an image menu without paying expensive paper printing fees.
+                    </p>
+                </div>
+            </div>
+        </section>
+
         <!-- FAQ Section -->
-<section class="w-full max-w-5xl border-t border-slate-200 mt-16 pt-12">
-    <div class="text-center max-w-2xl mx-auto mb-10">
-        <h2 class="text-2xl font-bold text-slate-900">Frequently Asked Questions</h2>
-        <p class="text-sm text-slate-500 mt-2">Everything you need to know about our menu image to QR code generator.</p>
-    </div>
+        <section class="w-full max-w-5xl border-t border-slate-200 mt-12 pt-12">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-2xl font-bold text-slate-900">Frequently Asked Questions</h2>
+                <p class="text-sm text-slate-500 mt-2">Everything you need to know about our menu image to QR code generator.</p>
+            </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-left">
-        <!-- Q1 -->
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
-            <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
-                <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
-                Is this menu QR code generator free?
-            </h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-                Yes, it is 100% free with no hidden fees or subscription required. You can generate unlimited QR codes for your restaurant or cafe menus.
-            </p>
-        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-left">
+                <!-- Q1 -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                        Is this menu QR code generator free?
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Yes, it is 100% free with no hidden fees or subscription required. You can generate unlimited QR codes for your restaurant or cafe menus.
+                    </p>
+                </div>
 
-        <!-- Q2 -->
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
-            <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
-                <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
-                Does the generated menu QR code expire?
-            </h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-                No, the generated QR codes do not expire. Once generated, your customers can scan and view your menu anytime.
-            </p>
-        </div>
+                <!-- Q2 -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                        Does the generated menu QR code expire?
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        No, the generated QR codes do not expire. Once generated, your customers can scan and view your menu anytime.
+                    </p>
+                </div>
 
-        <!-- Q3 -->
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
-            <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
-                <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
-                Can I edit text or prices on my menu here?
-            </h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-                This tool converts existing menu images (JPG, PNG, WEBP) into QR codes. It is not an online menu editor. To update your menu, simply upload a new menu image and generate a new QR code.
-            </p>
-        </div>
+                <!-- Q3 -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                        Can I edit text or prices on my menu here?
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        This tool converts existing menu images (JPG, PNG, WEBP) into QR codes. It is not an online menu editor. To update your menu, simply upload a new menu image and generate a new QR code.
+                    </p>
+                </div>
 
-        <!-- Q4 -->
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
-            <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
-                <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
-                What menu image formats are supported?
-            </h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-                We support JPG, PNG, and WEBP image formats up to 10MB per file. All images are hosted securely on fast cloud storage.
-            </p>
-        </div>
+                <!-- Q4 -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                    <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                        What menu image formats are supported?
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        We support JPG, PNG, and WEBP image formats up to 10MB per file. All images are hosted securely on fast cloud storage.
+                    </p>
+                </div>
 
-        <!-- Q5 -->
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2 md:col-span-2">
-            <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
-                <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
-                Can I add my restaurant logo to the QR code?
-            </h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-                Yes! You can upload your store logo in the generator options. The logo processing happens entirely client-side in your browser for fast and reliable rendering.
-            </p>
-        </div>
-    </div>
-</section>
+                <!-- Q5 -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2 md:col-span-2">
+                    <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                        Can I add my restaurant logo to the QR code?
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Yes! You can upload your store logo in the generator options. The logo processing happens entirely client-side in your browser for fast and reliable rendering.
+                    </p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer Area -->
@@ -355,7 +438,7 @@
         }
 
         /**
-         * 核心安全与性能防护：Canvas 重新重绘图片（纯物理抹除图片马/隐匿代码/转码纯净 WebP）
+         * 核心安全与性能防护：Canvas 重新重绘图片（纯物理抹除图片木马/隐匿代码/转码纯净 WebP）
          */
         function cleanAndOptimizeImage(file, maxWidth = 1600, quality = 0.85) {
             return new Promise((resolve, reject) => {
@@ -460,17 +543,14 @@
             const btn = document.getElementById('btn-submit');
 
             try {
-                // 1. 进行物理重绘防木马处理，优化最大宽度为 1600px
                 const cleanFile = await cleanAndOptimizeImage(rawFile, 1600, 0.85);
                 selectedFile = cleanFile;
 
-                // 2. 使用安全 Blob 进行预览展示
                 const preview = document.getElementById('image-preview');
                 preview.src = URL.createObjectURL(cleanFile);
                 preview.classList.remove('hidden');
                 document.getElementById('upload-placeholder').classList.add('hidden');
 
-                // 3. 激活生成按钮
                 btn.disabled = false;
                 btn.classList.remove('cursor-not-allowed');
 
@@ -488,7 +568,6 @@
             if (!rawFile) return;
 
             try {
-                // Logo 尺寸较小，重绘为 400px 正方形内纯净 WebP
                 const cleanLogoFile = await cleanAndOptimizeImage(rawFile, 400, 0.9);
 
                 const reader = new FileReader();
@@ -551,7 +630,6 @@
             try {
                 let imageUrl = "";
 
-                // Try uploading to backend API endpoint
                 try {
                     const arrayBuffer = await selectedFile.arrayBuffer();
                     const response = await fetch('/api/upload', {
@@ -569,7 +647,6 @@
                     console.warn("API Upload bypassed or offline mode active. Falling back to DataURL preview.");
                 }
 
-                // Fallback to DataURL
                 if (!imageUrl) {
                     imageUrl = await new Promise((resolve) => {
                         const r = new FileReader();
@@ -607,8 +684,8 @@
                 height: 220,
                 colorDark: colorDark,
                 colorLight: colorLight,
-                PO: colorCorner, // Position Outer Frame
-                PI: colorDot,    // Position Inner Dot
+                PO: colorCorner,
+                PI: colorDot,
                 correctLevel: QRCode.CorrectLevel.H
             };
 
