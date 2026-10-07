@@ -15,7 +15,7 @@
 ## Key Resources & Links
 
 - [Digital Menu Generator](https://menu.matrixqr.cc/): Free digital menu QR code generator web application.
-- [MatrixQR Main Studio](https://www.matrixqr.cc/): Main QR code suite for WiFi, vCard, and URL generation.
+- [MatrixQR Main Studio](https://www.matrixqr.cc/): Main QR code suite for WiFi, vCard, and Phone generation.
 - [MatrixBlog Guides](https://blog.matrixqr.cc/posts/): Tutorials and technical insights on QR code security and generation.
 - [Privacy Policy](https://blog.matrixqr.cc/posts/privacy-policy): Privacy terms and data management standards.
 - [XML Sitemap](https://menu.matrixqr.cc/sitemap.xml): Complete site structure for search engines and AI crawlers.
