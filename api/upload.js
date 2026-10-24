@@ -1,6 +1,6 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
+const MAX_FILE_SIZE = 4 * 1024 * 1024;
 const ALLOWED_ORIGIN = 'https://menu.matrixqr.cc';
 
 export const config = {
@@ -54,7 +54,7 @@ export default async function handler(req, res) {
 
     const contentLength = Number(req.headers['content-length'] || 0);
     if (contentLength > MAX_FILE_SIZE) {
-        return res.status(413).json({ error: 'File exceeds the 10 MB limit' });
+        return res.status(413).json({ error: 'File exceeds the 4 MB upload limit' });
     }
 
     const requiredEnv = [
