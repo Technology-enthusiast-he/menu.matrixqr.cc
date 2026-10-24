@@ -49,7 +49,7 @@ jobs:
             exit 0
           fi
 
-          URL_JSON="$(printf '%s\n' "$URLS" | jq -R . | jq -s .)"
+          URL_JSON="$(printf '%s\n' "$URLS" | jq -R . | jq -c -s .)"
           echo "url_json=$URL_JSON" >> "$GITHUB_OUTPUT"
           echo "has_urls=true" >> "$GITHUB_OUTPUT"
           printf '%s\n' "$URLS"
