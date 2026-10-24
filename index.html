@@ -6,7 +6,6 @@
     <!-- 优化 Title：主词前置、品牌结尾，与 H1/Meta 保持强相关 -->
     <title>Menu Image to QR Code Generator with Custom Logo | MatrixQR</title>
     <meta name="description" content="Free menu image to QR code generator with custom logo. Easily convert restaurant menu images into fast, high-quality QR codes for contactless dining.">
-    <meta name="keywords" content="Menu Image to QR Code Generator, digital menu QR code, restaurant menu QR maker, contact free menu, QR code menu generator, MatrixQR, menu logo QR">
     <meta name="author" content="MatrixQR Studio">
     <link rel="canonical" href="https://menu.matrixqr.cc/" />
     <link rel="icon" type="image/png" href="/favicon-64x64.png" sizes="64x64">
@@ -16,7 +15,7 @@
     <meta property="og:url" content="https://menu.matrixqr.cc/">
     <meta property="og:site_name" content="MatrixQR Digital Menu">
     <meta property="og:title" content="Menu Image to QR Code Generator with Custom Logo | MatrixQR">
-    <meta property="og:description" content="Upload menu images & generate instant QR codes with custom store logo for seamless contactless mobile viewing.">
+    <meta property="og:description" content="Convert restaurant menu images into shareable QR codes with an optional custom logo and colors. No account or subscription required.">
     <meta property="og:image" content="https://menu.matrixqr.cc/og-cover.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -25,7 +24,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://menu.matrixqr.cc/">
     <meta property="twitter:title" content="Menu Image to QR Code Generator with Custom Logo | MatrixQR">
-    <meta property="twitter:description" content="Upload menu images & generate instant QR codes with custom store logo for seamless contactless mobile viewing.">
+    <meta property="twitter:description" content="Convert restaurant menu images into shareable QR codes with an optional custom logo and colors. No account or subscription required.">
     <meta property="twitter:image" content="https://menu.matrixqr.cc/og-cover.png">
 
     <!-- Structured JSON-LD Schema (FAQ & WebApplication) -->
@@ -50,10 +49,10 @@
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Is this menu QR code generator free to use?",
+              "name": "Is this menu QR code generator free?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes, it is 100% free with no hidden fees, dynamic scan limits, or required subscriptions. You can create unlimited QR codes for your restaurant or cafe."
+                "text": "Yes. The generator is free to use and does not require an account or subscription."
               }
             },
             {
@@ -61,31 +60,31 @@
               "name": "Does the generated menu QR code expire?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "No, your generated QR code will never expire. Customers can scan and view your digital menu image anytime without link degradation."
+                "text": "The QR code has no built-in expiration timer. If it links to a menu image hosted in cloud storage, it will work only while that image URL remains available. Keep the hosted file and URL active for continued access."
               }
             },
             {
               "@type": "Question",
-              "name": "Can I edit menu text or prices inside this generator?",
+              "name": "Can I edit text or prices on my menu here?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "This tool directly converts static menu images (JPG, PNG, WEBP) into QR codes. It is not an interactive text menu builder. To change prices, simply re-upload your updated menu image."
+                "text": "This tool converts existing menu images (JPG, PNG, WEBP) into QR codes. It is not an online menu editor. To update your menu, upload an updated menu image and generate a new QR code."
               }
             },
             {
               "@type": "Question",
-              "name": "What image formats and file sizes are supported?",
+              "name": "What menu image formats and file sizes are supported?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "We support JPG, PNG, and WEBP images up to 10MB. Images are automatically optimized and securely cached on global Cloudflare R2 storage for instant loading."
+                "text": "The generator accepts JPG, PNG, and WEBP images up to 10 MB per file. Before upload, the selected image is resized and re-encoded in your browser. To create a shareable QR code, the processed menu image is uploaded to Cloudflare R2 and accessed through its public URL."
               }
             },
             {
               "@type": "Question",
-              "name": "Can I embed my restaurant logo inside the QR code?",
+              "name": "Can I add my restaurant logo to the QR code?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes! You can upload your store logo or avatar, which is rendered directly into the center of the QR code using client-side HTML5 Canvas technology."
+                "text": "Yes. You can upload a store logo, which is processed in your browser and rendered in the center of the QR code."
               }
             }
           ]
@@ -178,7 +177,7 @@
                     </h2>
 
                     <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50/50 relative">
-                        <input type="file" aria-label="Upload menu picture" id="menu-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFileSelect(event)">
+                        <input type="file" aria-label="Upload menu picture" id="menu-file" accept="image/jpeg,image/png,image/webp" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleFileSelect(event)">
                         
                         <div id="upload-placeholder" class="space-y-2">
                             <i data-lucide="image" class="w-10 h-10 text-slate-400 mx-auto"></i>
@@ -202,7 +201,7 @@
                             <label class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-xl py-2 px-3 text-xs font-medium cursor-pointer transition-colors text-center flex items-center justify-center gap-1.5">
                                 <i data-lucide="image-plus" class="w-3.5 h-3.5 text-indigo-600"></i>
                                 <span id="logo-btn-text">Add Store Logo</span>
-                                <input type="file" id="logo-file" accept="image/*" class="hidden" onchange="handleLogoSelect(event)">
+                                <input type="file" id="logo-file" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handleLogoSelect(event)">
                             </label>
                             <button type="button" id="logo-remove-btn" onclick="removeLogo()" class="hidden px-3 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 rounded-xl text-xs font-medium transition-colors">
                                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
@@ -389,7 +388,7 @@
                         Is this menu QR code generator free?
                     </h3>
                     <p class="text-xs text-slate-600 leading-relaxed">
-                        Yes, it is 100% free with no hidden fees or subscription required. You can generate unlimited QR codes for your restaurant or cafe menus.
+                        Yes. The generator is free to use and does not require an account or subscription.
                     </p>
                 </div>
 
@@ -400,7 +399,7 @@
                         Does the generated menu QR code expire?
                     </h3>
                     <p class="text-xs text-slate-600 leading-relaxed">
-                        No, the generated QR codes do not expire. Once generated, your customers can scan and view your menu anytime.
+                        The QR code has no built-in expiration timer. If it links to a menu image hosted in cloud storage, it will work only while that image URL remains available. Keep the hosted file and URL active for continued access.
                     </p>
                 </div>
 
@@ -411,7 +410,7 @@
                         Can I edit text or prices on my menu here?
                     </h3>
                     <p class="text-xs text-slate-600 leading-relaxed">
-                        This tool converts existing menu images (JPG, PNG, WEBP) into QR codes. It is not an online menu editor. To update your menu, simply upload a new menu image and generate a new QR code.
+                        This tool converts existing menu images (JPG, PNG, WEBP) into QR codes. It is not an online menu editor. To update your menu, upload an updated menu image and generate a new QR code.
                     </p>
                 </div>
 
@@ -419,10 +418,10 @@
                 <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
                     <h3 class="font-semibold text-slate-900 text-sm flex items-center gap-2">
                         <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
-                        What menu image formats are supported?
+                        What menu image formats and file sizes are supported?
                     </h3>
                     <p class="text-xs text-slate-600 leading-relaxed">
-                        We support JPG, PNG, and WEBP image formats up to 10MB per file. All images are hosted securely on fast cloud storage.
+                        The generator accepts JPG, PNG, and WEBP images up to 10 MB per file. Before upload, the selected image is resized and re-encoded in your browser. To create a shareable QR code, the processed menu image is uploaded to Cloudflare R2 and accessed through its public URL.
                     </p>
                 </div>
 
@@ -433,7 +432,7 @@
                         Can I add my restaurant logo to the QR code?
                     </h3>
                     <p class="text-xs text-slate-600 leading-relaxed">
-                        Yes! You can upload your store logo in the generator options. The logo processing happens entirely client-side in your browser for fast and reliable rendering.
+                        Yes. You can upload a store logo, which is processed in your browser and rendered in the center of the QR code.
                     </p>
                 </div>
             </div>
@@ -478,8 +477,13 @@
          */
         function cleanAndOptimizeImage(file, maxWidth = 1600, quality = 0.85) {
             return new Promise((resolve, reject) => {
-                if (!file || !file.type.startsWith('image/')) {
-                    return reject(new Error('Please select a valid image file.'));
+                const supportedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                const maxFileSize = 10 * 1024 * 1024;
+                if (!file || !supportedTypes.includes(file.type)) {
+                    return reject(new Error('Please select a JPG, PNG, or WEBP image.'));
+                }
+                if (file.size > maxFileSize) {
+                    return reject(new Error('Please choose an image smaller than 10 MB.'));
                 }
 
                 const img = new Image();
