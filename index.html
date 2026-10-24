@@ -76,7 +76,7 @@
               "name": "What menu image formats and file sizes are supported?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "The generator accepts JPG, PNG, and WEBP images up to 10 MB per file. Before upload, the selected image is resized and re-encoded in your browser. To create a shareable QR code, the processed menu image is uploaded to Cloudflare R2 and accessed through its public URL."
+                "text": "The original menu image can be JPG, PNG, or WEBP and must be 10 MB or smaller. Your browser resizes and re-encodes it as WEBP; the optimized WEBP file must be 4 MB or smaller to upload to Cloudflare R2 and create a shareable QR code."
               }
             },
             {
@@ -182,7 +182,7 @@
                         <div id="upload-placeholder" class="space-y-2">
                             <i data-lucide="image" class="w-10 h-10 text-slate-400 mx-auto"></i>
                             <p class="text-sm font-semibold text-slate-700">Click or drag & drop menu image here</p>
-                            <p class="text-xs text-slate-500">Supports JPG, PNG, WEBP (Max 10MB)</p>
+                            <p class="text-xs text-slate-500">Source image: JPG, PNG, WEBP (up to 10 MB); optimized WEBP upload: up to 4 MB</p>
                         </div>
 
                         <img id="image-preview" class="hidden max-h-60 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" alt="Menu Preview" />
@@ -316,7 +316,7 @@
                 <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
                     <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">1</div>
                     <h3 class="font-bold text-slate-900 text-sm">Upload Menu Image</h3>
-                    <p class="text-xs text-slate-600 leading-relaxed">Select your restaurant menu picture or flyer in JPG, PNG, or WEBP format up to 10MB.</p>
+                    <p class="text-xs text-slate-600 leading-relaxed">Select your original restaurant menu image or flyer in JPG, PNG, or WEBP format (up to 10 MB). After browser optimization, the WEBP file must be 4 MB or smaller to upload.</p>
                 </div>
 
                 <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
@@ -421,7 +421,7 @@
                         What menu image formats and file sizes are supported?
                     </h3>
                     <p class="text-xs text-slate-600 leading-relaxed">
-                        The generator accepts JPG, PNG, and WEBP images up to 10 MB per file. Before upload, the selected image is resized and re-encoded in your browser. To create a shareable QR code, the processed menu image is uploaded to Cloudflare R2 and accessed through its public URL.
+                        The original menu image can be JPG, PNG, or WEBP and must be 10 MB or smaller. Your browser resizes and re-encodes it as WEBP; the optimized WEBP file must be 4 MB or smaller to upload to Cloudflare R2 and create a shareable QR code.
                     </p>
                 </div>
 
