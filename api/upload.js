@@ -1,5 +1,7 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+const ALLOWED_ORIGIN = 'https://menu.matrixqr.cc';
 
 export const config = {
     api: {
@@ -17,50 +19,97 @@ const S3 = new S3Client({
 });
 
 export default async function handler(req, res) {
-    
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    const origin = req.headers.origin;
+
+    if (origin && origin !== ALLOWED_ORIGIN) {
+        return res.status(403).json({ error: 'Origin not allowed' });
+    }
+
+    if (origin === ALLOWED_ORIGIN) {
+        res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+        res.setHeader('Vary', 'Origin');
+    }
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') {
-        return res.status(200).end();
+        if (origin !== ALLOWED_ORIGIN) {
+            return res.status(403).end();
+        }
+        return res.status(204).end();
     }
 
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
+    const contentType = String(req.headers['content-type'] || '')
+        .split(';')[0]
+        .trim()
+        .toLowerCase();
+
+    if (contentType !== 'image/webp') {
+        return res.status(415).json({ error: 'Only WEBP image uploads are supported' });
+    }
+
+    const contentLength = Number(req.headers['content-length'] || 0);
+    if (contentLength > MAX_FILE_SIZE) {
+        return res.status(413).json({ error: 'File exceeds the 10 MB limit' });
+    }
+
+    const requiredEnv = [
+        'R2_ACCOUNT_ID',
+        'R2_ACCESS_KEY_ID',
+        'R2_SECRET_ACCESS_KEY',
+        'R2_BUCKET_NAME',
+        'R2_PUBLIC_DOMAIN',
+    ];
+    if (requiredEnv.some((key) => !process.env[key])) {
+        console.error('R2 upload configuration is incomplete');
+        return res.status(500).json({ error: 'Upload service is not configured' });
+    }
+
     try {
-        
         const buffers = [];
+        let totalBytes = 0;
+
         for await (const chunk of req) {
+            totalBytes += chunk.length;
+            if (totalBytes > MAX_FILE_SIZE) {
+                return res.status(413).json({ error: 'File exceeds the 10 MB limit' });
+            }
             buffers.push(chunk);
         }
+
         const fileBuffer = Buffer.concat(buffers);
 
-        if (!fileBuffer || fileBuffer.length === 0) {
-            return res.status(400).json({ error: 'Empty file uploaded' });
+        if (fileBuffer.length < 12) {
+            return res.status(400).json({ error: 'Invalid WEBP image' });
         }
 
-        
-        const ext = req.headers['content-type']?.split('/')[1] || 'jpg';
-        const filename = `menu-${Date.now()}.${ext}`;
+        const isWebp =
+            fileBuffer.toString('ascii', 0, 4) === 'RIFF' &&
+            fileBuffer.toString('ascii', 8, 12) === 'WEBP';
 
-        
+        if (!isWebp) {
+            return res.status(400).json({ error: 'Invalid WEBP image' });
+        }
+
+        const filename = `menu-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+
         await S3.send(new PutObjectCommand({
             Bucket: process.env.R2_BUCKET_NAME,
             Key: filename,
             Body: fileBuffer,
-            ContentType: req.headers['content-type'] || 'image/jpeg',
+            ContentType: 'image/webp',
         }));
 
-        
         const domain = process.env.R2_PUBLIC_DOMAIN.replace(/\/$/, '');
         const publicUrl = `${domain}/${filename}`;
 
         return res.status(200).json({ success: true, url: publicUrl });
     } catch (err) {
-        console.error('R2 Upload Error:', err);
-        return res.status(500).json({ error: err.message || 'Server Internal Error' });
+        console.error('R2 upload failed:', err);
+        return res.status(500).json({ error: 'Upload failed. Please try again.' });
     }
 }
