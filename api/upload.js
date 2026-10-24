@@ -82,7 +82,7 @@ export default async function handler(req, res) {
         for await (const chunk of req) {
             totalBytes += chunk.length;
             if (totalBytes > MAX_FILE_SIZE) {
-                return res.status(413).json({ error: 'File exceeds the 10 MB limit' });
+                return res.status(413).json({ error: 'File exceeds the 4 MB upload limit' });
             }
             buffers.push(chunk);
         }
