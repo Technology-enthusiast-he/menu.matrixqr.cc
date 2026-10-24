@@ -494,12 +494,26 @@
                 img.onload = () => {
                     URL.revokeObjectURL(objectUrl);
 
-                    let width = img.width;
-                    let height = img.height;
-                    if (width > maxWidth) {
-                        height = Math.round((height * maxWidth) / width);
-                        width = maxWidth;
+                    const sourceWidth = img.naturalWidth;
+                    const sourceHeight = img.naturalHeight;
+                    const sourcePixels = sourceWidth * sourceHeight;
+
+                    // Avoid allocating an oversized canvas for extreme-dimension uploads.
+                    const maxSourcePixels = 80_000_000;
+                    if (!sourceWidth || !sourceHeight || sourcePixels > maxSourcePixels) {
+                        return reject(new Error('This image has extremely large pixel dimensions and may be too demanding for your browser. Please resize it or export a smaller copy, then upload it again.'));
                     }
+
+                    const maxHeight = 12000;
+                    const maxOutputPixels = 16_000_000;
+                    const scale = Math.min(
+                        1,
+                        maxWidth / sourceWidth,
+                        maxHeight / sourceHeight,
+                        Math.sqrt(maxOutputPixels / sourcePixels)
+                    );
+                    const width = Math.max(1, Math.round(sourceWidth * scale));
+                    const height = Math.max(1, Math.round(sourceHeight * scale));
 
                     const canvas = document.createElement('canvas');
                     canvas.width = width;
