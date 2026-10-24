@@ -466,6 +466,7 @@
     <script>
         let selectedFile = null;
         let selectedLogoBase64 = null;
+        let previewObjectUrl = null;
         let lastGeneratedUrl = "";
 
         // Initialize Lucide Vector Icons
@@ -591,6 +592,11 @@
             btn.classList.add('cursor-not-allowed');
             uploadError.textContent = '';
             uploadError.classList.add('hidden');
+
+            if (previewObjectUrl) {
+                URL.revokeObjectURL(previewObjectUrl);
+                previewObjectUrl = null;
+            }
             preview.classList.add('hidden');
             preview.removeAttribute('src');
             placeholder.classList.remove('hidden');
@@ -603,7 +609,8 @@
                 }
 
                 selectedFile = cleanFile;
-                preview.src = URL.createObjectURL(cleanFile);
+                previewObjectUrl = URL.createObjectURL(cleanFile);
+                preview.src = previewObjectUrl;
                 preview.classList.remove('hidden');
                 placeholder.classList.add('hidden');
 
