@@ -33,7 +33,7 @@ This free browser-based tool helps restaurants, cafes, and bars turn existing me
 - The QR code has no built-in expiration timer, but access to a cloud-hosted menu depends on the public image URL remaining available.
 - Uploaded menu images are stored in Cloudflare R2 to provide a shareable public URL. Do not upload files that should remain private.
 - The page loads Google Analytics after user interaction or after a short delay.
-- The upload API accepts processed WEBP images up to 10 MB.
+- The browser accepts source images up to 10 MB, then re-encodes them as WEBP. The processed WEBP file must be no larger than 4 MB to upload to R2.
 
 ## Links
 
