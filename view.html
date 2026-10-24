@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f8fafc">
+  <title>Digital Menu | MatrixQR</title>
+  <meta name="description" content="View this digital menu, optimized for your screen.">
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f8fafc; color: #0f172a; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    header { position: sticky; top: 0; z-index: 1; padding: max(12px, env(safe-area-inset-top)) 16px 12px; text-align: center; background: rgba(255,255,255,.96); border-bottom: 1px solid #e2e8f0; }
+    header a { color: #4f46e5; text-decoration: none; font-size: 14px; font-weight: 650; }
+    main { width: 100%; max-width: 1100px; margin: 0 auto; padding: 12px; }
+    #menu-image { display: block; width: auto; height: auto; max-width: 100%; margin: 0 auto; border-radius: 4px; background: white; }
+    #status { padding: 48px 20px; text-align: center; color: #475569; font-size: 15px; }
+    #hint { margin: 12px auto 0; padding: 0 12px max(18px, env(safe-area-inset-bottom)); text-align: center; color: #64748b; font-size: 12px; }
+    @media (min-width: 700px) { main { padding: 24px; } #menu-image { box-shadow: 0 2px 12px rgba(15,23,42,.08); } }
+  </style>
+</head>
+<body>
+  <header><a href="https://menu.matrixqr.cc/" aria-label="MatrixQR Digital Menu Generator">MatrixQR · Digital Menu</a></header>
+  <main>
+    <p id="status" role="status">Loading menu…</p>
+    <img id="menu-image" alt="Restaurant menu" hidden>
+    <p id="hint" hidden>Pinch to zoom on touchscreens, or use your browser’s zoom controls to read small text.</p>
+  </main>
+  <script>
+    (() => {
+      const status = document.getElementById('status');
+      const image = document.getElementById('menu-image');
+      const hint = document.getElementById('hint');
+      const source = new URLSearchParams(window.location.search).get('src');
+
+      if (!source) {
+        status.textContent = 'This menu link is missing its image address. Please scan the QR code again or ask the restaurant for a new link.';
+        return;
+      }
+
+      let imageUrl;
+      try {
+        imageUrl = new URL(source);
+      } catch {
+        status.textContent = 'This menu link is invalid. Please ask the restaurant for a new QR code.';
+        return;
+      }
+
+      if (imageUrl.protocol !== 'https:') {
+        status.textContent = 'For your safety, this menu must use a secure HTTPS image address.';
+        return;
+      }
+
+      image.addEventListener('load', () => {
+        status.hidden = true;
+        image.hidden = false;
+        hint.hidden = false;
+      }, { once: true });
+
+      image.addEventListener('error', () => {
+        status.textContent = 'The menu image could not be loaded. Please check your connection or ask the restaurant for help.';
+      }, { once: true });
+
+      image.src = imageUrl.href;
+    })();
+  </script>
+</body>
+</html>

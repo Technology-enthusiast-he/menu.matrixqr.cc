@@ -113,7 +113,13 @@ export default async function handler(req, res) {
         const domain = process.env.R2_PUBLIC_DOMAIN.replace(/\/$/, '');
         const publicUrl = `${domain}/${filename}`;
 
-        return res.status(200).json({ success: true, url: publicUrl });
+        const viewerUrl = `https://menu.matrixqr.cc/view.html?src=${encodeURIComponent(publicUrl)}`;
+
+        return res.status(200).json({
+            success: true,
+            url: publicUrl,
+            viewerUrl,
+        });
     } catch (err) {
         console.error('R2 upload failed:', err);
         return res.status(500).json({ error: 'Upload failed. Please try again.' });
