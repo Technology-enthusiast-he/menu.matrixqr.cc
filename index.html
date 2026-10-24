@@ -187,6 +187,7 @@
 
                         <img id="image-preview" class="hidden max-h-60 mx-auto rounded-lg shadow-sm border border-slate-200 object-contain" alt="Menu Preview" />
                     </div>
+                    <p id="upload-error" class="hidden text-xs text-rose-600 leading-relaxed" role="alert"></p>
                 </div>
 
                 <!-- 1.2 Custom Logo Upload Area -->
@@ -581,24 +582,39 @@
             if (!rawFile) return;
 
             const btn = document.getElementById('btn-submit');
+            const uploadError = document.getElementById('upload-error');
+            const preview = document.getElementById('image-preview');
+            const placeholder = document.getElementById('upload-placeholder');
+
+            selectedFile = null;
+            btn.disabled = true;
+            btn.classList.add('cursor-not-allowed');
+            uploadError.textContent = '';
+            uploadError.classList.add('hidden');
+            preview.classList.add('hidden');
+            preview.removeAttribute('src');
+            placeholder.classList.remove('hidden');
 
             try {
                 const cleanFile = await cleanAndOptimizeImage(rawFile, 1600, 0.85);
-                selectedFile = cleanFile;
 
-                const preview = document.getElementById('image-preview');
+                if (cleanFile.size > 4 * 1024 * 1024) {
+                    throw new Error('The optimized image is larger than 4 MB. Please choose a different image with a smaller file size or dimensions.');
+                }
+
+                selectedFile = cleanFile;
                 preview.src = URL.createObjectURL(cleanFile);
                 preview.classList.remove('hidden');
-                document.getElementById('upload-placeholder').classList.add('hidden');
+                placeholder.classList.add('hidden');
 
                 btn.disabled = false;
                 btn.classList.remove('cursor-not-allowed');
 
             } catch (err) {
-                alert(err.message);
+                selectedFile = null;
                 e.target.value = '';
-                btn.disabled = true;
-                btn.classList.add('cursor-not-allowed');
+                uploadError.textContent = err.message || 'Image processing failed. Please choose another image and try again.';
+                uploadError.classList.remove('hidden');
             }
         }
 
