@@ -1,13 +1,13 @@
-# LLM Full Content Access - MatrixQR Digital Menu Generator
+# MatrixQR Digital Menu Generator — Full Documentation
 
-> Comprehensive full documentation file for AI agents, search engines, and LLM crawlers.
-> Last Updated: 2026-09-29
+> Product documentation for search engines, AI systems, and users.
+> Last updated: 2026-10-24
 
 ---
 
 ## Website Overview
 
-- **Name**: Free Digital Menu QR Code Generator
+- **Name**: MatrixQR Digital Menu Generator
 - **URL**: https://menu.matrixqr.cc/
 - **Brand**: MatrixQR Studio
 - **Parent Site**: https://www.matrixqr.cc/
@@ -15,43 +15,27 @@
 - **Privacy Policy**: https://blog.matrixqr.cc/posts/privacy-policy
 - **Language**: English
 
----
+## Product Description
 
-## Product Description & Utility
+This free browser-based tool helps restaurants, cafes, and bars turn existing menu images into QR codes. Users can optionally add a logo and customize QR colors. No account or subscription is required.
 
-This tool enables restaurant owners, cafe operators, and bar managers to instantly convert paper menu images or PDFs into contactless digital QR codes without registering or paying fees.
+## Supported Files and Workflow
 
-### Core Functionality & Workflow
+1. Select a JPG, PNG, or WEBP menu image up to 10 MB.
+2. The browser resizes and re-encodes the selected image as WEBP.
+3. To create a shareable QR code, the processed image is uploaded to Cloudflare R2 and the QR code encodes its public URL.
+4. Logo overlays and QR styling are rendered in the browser.
+5. Customers scan the QR code to open the hosted menu image.
 
-1. **Upload Menu File**: Drag and drop or click to upload menu images (Supported: JPG, PNG, WEBP, PDF | Max File Size: 10MB).
-2. **Cloudflare R2 Hosting**: Menu files are stored securely on encrypted Cloudflare R2 object storage to generate a reliable public URL for customer scans.
-3. **Local Customization**: Store logo overlays and QR matrix styling are rendered 100% client-side inside the user's browser Canvas.
-4. **Scan to View**: Customers scan the code with any smartphone camera (iOS/Android) to view the menu image instantly.
+## Important Limitations and Data Handling
 
----
+- This is an image-to-QR tool, not an interactive text menu editor. To change menu text or prices, update the source image and generate a new QR code.
+- The QR code has no built-in expiration timer, but access to a cloud-hosted menu depends on the public image URL remaining available.
+- Uploaded menu images are stored in Cloudflare R2 to provide a shareable public URL. Do not upload files that should remain private.
+- The page loads Google Analytics after user interaction or after a short delay.
+- The upload API accepts processed WEBP images up to 10 MB.
 
-## Technical Details & Architecture
-
-- **Architecture**: Hybrid Model — Client-Side Canvas Rendering + Cloudflare R2 Media Hosting.
-- **Data Privacy**: No user credentials, behavioral tracking, or personal contact data logged.
-- **Hosting & Infrastructure**: Deployed on Vercel with GitHub CI/CD automation; assets served via Cloudflare global CDN.
-
----
-
-## Frequently Asked Questions (FAQ)
-
-### Q: Are uploaded menu images saved on a server?
-A: Yes. Menu files are stored on high-performance Cloudflare R2 storage solely to provide a scannable public link for your restaurant customers. Logo rendering and QR creation happen strictly within your local browser memory.
-
-### Q: Can I edit the menu text or prices using this tool?
-A: No. This tool is a file-to-QR converter for pre-designed menu images or PDFs. It is not an interactive digital menu editor.
-
-### Q: Is there any fee or usage limit?
-A: No, the service is 100% free with unlimited generation and no user registration required.
-
----
-
-## Links & System References
+## Links
 
 - [Main Menu Tool](https://menu.matrixqr.cc/)
 - [Compact LLM Summary](https://menu.matrixqr.cc/llms.txt)
