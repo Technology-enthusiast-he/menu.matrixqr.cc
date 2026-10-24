@@ -13,8 +13,9 @@ A lightweight, privacy-focused, and client-side **Digital Menu QR Code Generator
 
 ## ✨ Features
 
-- ⚡ **100% Client-Side Processing**: Fast generation with zero latency.
-- 🔒 **Privacy-First**: No data tracking or server-side logging of menu URLs or content.
+- ⚡ **Browser-Based Processing**: Images are resized and re-encoded in the browser; QR styling and logo overlays are rendered locally.
+- ☁️ **Shareable Hosting**: Processed menu images are uploaded to Cloudflare R2 so customers can open them from a public QR-code URL.
+- 📊 **Analytics**: The website loads Google Analytics after interaction or after a short delay.
 - 📱 **Mobile & Touch Optimized**: Clean, responsive layout for desktop, tablet, and smartphone browsers.
 - 🎨 **Custom Styling**: Tailored for contactless dining setups (table stickers, counter stands, window posters).
 - 📥 **High-Quality Export**: Instant PNG export with no watermarks.

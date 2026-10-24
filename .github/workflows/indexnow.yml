@@ -10,19 +10,63 @@ jobs:
   indexnow:
     runs-on: ubuntu-latest
     steps:
-      - name: Send IndexNow Request to Bing
-        run: |
-          curl -v -X POST "https://api.indexnow.org/indexnow" \
-          -H "Content-Type: application/json; charset=utf-8" \
-          -d '{
-            "host": "menu.matrixqr.cc",
-            "key": "128b266e75164b4d9796276d274dbf5d",
-            "keyLocation": "https://menu.matrixqr.cc/128b266e75164b4d9796276d274dbf5d.txt",
-            "urlList": [
-              "https://menu.matrixqr.cc/"
-            ]
-          }'
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Ping Google Sitemap
+      - name: Build URL list from changed HTML pages
+        id: urls
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
         run: |
-          curl "https://www.google.com/ping?sitemap=https://menu.matrixqr.cc/sitemap.xml"
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            CHANGED_PATHS="$(git ls-tree -r --name-only "$AFTER")"
+          else
+            CHANGED_PATHS="$(git diff --name-only "$BEFORE" "$AFTER")"
+          fi
+
+          URLS="$(
+            printf '%s\n' "$CHANGED_PATHS" | while IFS= read -r path; do
+              case "$path" in
+                index.html)
+                  printf '%s\n' "https://menu.matrixqr.cc/"
+                  ;;
+                */index.html)
+                  printf 'https://menu.matrixqr.cc/%s\n' "${path%index.html}"
+                  ;;
+                *.html)
+                  printf 'https://menu.matrixqr.cc/%s\n' "${path%.html}"
+                  ;;
+              esac
+            done | sort -u
+          )"
+
+          if [ -z "$URLS" ]; then
+            echo "No changed HTML pages to submit."
+            echo "has_urls=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          URL_JSON="$(printf '%s\n' "$URLS" | jq -R . | jq -c -s .)"
+          echo "url_json=$URL_JSON" >> "$GITHUB_OUTPUT"
+          echo "has_urls=true" >> "$GITHUB_OUTPUT"
+          printf '%s\n' "$URLS"
+
+      - name: Submit changed pages to IndexNow
+        if: steps.urls.outputs.has_urls == 'true'
+        env:
+          URL_JSON: ${{ steps.urls.outputs.url_json }}
+        run: |
+          PAYLOAD="$(jq -n \
+            --arg host "menu.matrixqr.cc" \
+            --arg key "128b266e75164b4d9796276d274dbf5d" \
+            --arg keyLocation "https://menu.matrixqr.cc/128b266e75164b4d9796276d274dbf5d.txt" \
+            --argjson urlList "$URL_JSON" \
+            '{host: $host, key: $key, keyLocation: $keyLocation, urlList: $urlList}')"
+
+          curl --fail-with-body --silent --show-error \
+            -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "$PAYLOAD"

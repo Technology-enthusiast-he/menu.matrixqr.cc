@@ -1,29 +1,29 @@
 # MatrixQR Digital Menu Generator
 
-> Free, secure, client-side online tool that converts physical menu images or PDFs into scannable digital QR codes for restaurants, cafes, and bars.
+> Free browser-based tool for converting restaurant, cafe, and bar menu images into QR codes with optional logo and color customization.
 
 ## Core Features
 
-- [Instant Image-to-QR](https://menu.matrixqr.cc/): Convert JPG, PNG, WEBP, or PDF menu files (up to 10MB) into scannable QR codes instantly.
-- [Secure Media Hosting](https://menu.matrixqr.cc/): Uploaded menu files are hosted securely on fast Cloudflare R2 cloud storage; no personal tracking data is collected.
-- [Client-Side Customization](https://menu.matrixqr.cc/): Logo overlays and QR matrix styling are rendered entirely in the local browser Canvas.
-- [Free & Frictionless](https://menu.matrixqr.cc/): Unlimited usage with no user registration, payment, or account creation required.
+- [Menu Image to QR Code Generator](https://menu.matrixqr.cc/): Convert JPG, PNG, or WEBP menu images (up to 10 MB per file) into QR codes.
+- [Cloud-hosted menu images](https://menu.matrixqr.cc/): To create a shareable QR code, the processed menu image is uploaded to Cloudflare R2 and referenced by a public URL.
+- [Browser-based customization](https://menu.matrixqr.cc/): Menu images are resized and re-encoded in the browser; optional logo overlays and QR styling are rendered locally.
+- [Free to use](https://menu.matrixqr.cc/): No account or subscription is required.
 
 ## Clarification & Scope
-- [Note](https://menu.matrixqr.cc/): This tool converts existing menu images/PDFs into QR access links. It is NOT an interactive online menu builder or text editor.
+
+- This tool converts existing menu images into QR codes. It is not an interactive menu builder or text editor.
+- The generated QR code can link to a publicly hosted image. Continued access depends on the hosted image URL remaining available.
+- The page uses Google Analytics. Menu image files uploaded to generate shareable QR codes are stored in Cloudflare R2.
 
 ## Key Resources & Links
 
-- [Digital Menu Generator](https://menu.matrixqr.cc/): Free digital menu QR code generator web application.
-- [MatrixQR Main Studio](https://www.matrixqr.cc/): Main QR code suite for WiFi, vCard, and Phone generation.
-- [MatrixBlog Guides](https://blog.matrixqr.cc/posts/): Tutorials and technical insights on QR code security and generation.
-- [Privacy Policy](https://blog.matrixqr.cc/posts/privacy-policy): Privacy terms and data management standards.
-- [XML Sitemap](https://menu.matrixqr.cc/sitemap.xml): Complete site structure for search engines and AI crawlers.
-
-## Extended Documentation
-
-- [Full Menu Specs](https://menu.matrixqr.cc/llms-full.txt): Detailed specifications, usage guidelines, and FAQ for the Digital Menu tool.
+- [Digital Menu Generator](https://menu.matrixqr.cc/): Main web application.
+- [MatrixQR Main Site](https://www.matrixqr.cc/): QR tools for WiFi, website URLs, phone numbers, and vCards.
+- [MatrixQR Blog](https://blog.matrixqr.cc/): Tutorials and technical guides.
+- [Privacy Policy](https://blog.matrixqr.cc/posts/privacy-policy): Privacy information.
+- [XML Sitemap](https://menu.matrixqr.cc/sitemap.xml): Search-engine sitemap.
+- [Full Documentation](https://menu.matrixqr.cc/llms-full.txt): Extended product details and FAQs.
 
 ## Contact & Support
 
-- [Support Email](mailto:wm@matrixqr.cc): Contact support team via email.
+- Support: mailto:wm@matrixqr.cc
