@@ -66,7 +66,11 @@ jobs:
             --argjson urlList "$URL_JSON" \
             '{host: $host, key: $key, keyLocation: $keyLocation, urlList: $urlList}')"
 
+          # IndexNow can temporarily return 5xx responses. Retry transient failures
+          # instead of failing the entire workflow on the first request.
           curl --fail-with-body --silent --show-error \
+            --retry 3 --retry-delay 5 --retry-max-time 60 \
+            --connect-timeout 10 --max-time 30 \
             -X POST "https://api.indexnow.org/indexnow" \
             -H "Content-Type: application/json; charset=utf-8" \
             -d "$PAYLOAD"
