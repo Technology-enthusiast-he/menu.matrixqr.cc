@@ -670,37 +670,37 @@
             try {
                 let imageUrl = "";
 
-                try {
-                    const arrayBuffer = await selectedFile.arrayBuffer();
-                    const response = await fetch('/api/upload', {
-                        method: 'POST',
-                        headers: {
-                            'content-type': selectedFile.type || 'image/webp'
-                        },
-                        body: arrayBuffer
-                    });
-                    const resData = await response.json();
-                    if (response.ok && resData.url) {
-                        imageUrl = resData.url;
-                    }
-                } catch (apiErr) {
-                    console.warn("API Upload bypassed or offline mode active. Falling back to DataURL preview.");
+                if (selectedFile.size > 4 * 1024 * 1024) {
+                    throw new Error('The optimized menu image is larger than 4 MB. Please choose a smaller image and try again.');
                 }
 
-                if (!imageUrl) {
-                    imageUrl = await new Promise((resolve) => {
-                        const r = new FileReader();
-                        r.onload = e => resolve(e.target.result);
-                        r.readAsDataURL(selectedFile);
-                    });
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': selectedFile.type || 'image/webp'
+                    },
+                    body: arrayBuffer
+                });
+
+                let resData = {};
+                try {
+                    resData = await response.json();
+                } catch (parseError) {
+                    throw new Error('The upload service returned an invalid response. Please try again.');
                 }
+
+                if (!response.ok || !resData.url) {
+                    throw new Error(resData.error || 'Menu image upload failed. Please check your connection and try again.');
+                }
+                imageUrl = resData.url;
 
                 lastGeneratedUrl = imageUrl;
                 renderQRWithLogo(imageUrl);
 
             } catch (err) {
                 console.error(err);
-                alert('An error occurred during processing, please try again.');
+                alert(err.message || 'An error occurred during processing, please try again.');
                 loading.classList.add('hidden');
                 qrEmpty.classList.remove('hidden');
             }
