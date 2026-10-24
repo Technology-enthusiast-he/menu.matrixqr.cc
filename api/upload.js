@@ -1,7 +1,6 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 const MAX_FILE_SIZE = 4 * 1024 * 1024;
-const ALLOWED_ORIGIN = 'https://menu.matrixqr.cc';
 
 export const config = {
     api: {
@@ -20,20 +19,27 @@ const S3 = new S3Client({
 
 export default async function handler(req, res) {
     const origin = req.headers.origin;
+    const requestHost = req.headers.host;
 
-    if (origin && origin !== ALLOWED_ORIGIN) {
-        return res.status(403).json({ error: 'Origin not allowed' });
-    }
+    if (origin) {
+        try {
+            const originHost = new URL(origin).host;
+            if (!requestHost || originHost !== requestHost) {
+                return res.status(403).json({ error: 'Cross-origin uploads are not allowed' });
+            }
+        } catch (error) {
+            return res.status(403).json({ error: 'Invalid request origin' });
+        }
 
-    if (origin === ALLOWED_ORIGIN) {
-        res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+        res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Vary', 'Origin');
     }
+
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') {
-        if (origin !== ALLOWED_ORIGIN) {
+        if (!origin) {
             return res.status(403).end();
         }
         return res.status(204).end();
