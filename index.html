@@ -718,8 +718,13 @@
                 }
                 imageUrl = resData.url;
 
-                lastGeneratedUrl = imageUrl;
-                renderQRWithLogo(imageUrl);
+                const viewerUrl = resData.viewerUrl;
+                if (!viewerUrl) {
+                    throw new Error('The upload service did not return a menu viewing link. Please try again.');
+                }
+
+                lastGeneratedUrl = viewerUrl;
+                renderQRWithLogo(viewerUrl);
 
             } catch (err) {
                 console.error(err);
